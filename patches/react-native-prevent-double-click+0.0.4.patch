@@ -1,0 +1,23 @@
+diff --git a/node_modules/react-native-prevent-double-click/index.js b/node_modules/react-native-prevent-double-click/index.js
+index 043d372..35981e8 100644
+--- a/node_modules/react-native-prevent-double-click/index.js
++++ b/node_modules/react-native-prevent-double-click/index.js
+@@ -17,7 +17,7 @@ export const PreventDoubleClickWithoutFeedBack=(props)=>{
+         },1000))
+     }
+     return<TouchableWithoutFeedback onPress={()=>{
+-        handleClick()}}>
++        handleClick()}} {...props}>
+         {props.children}
+     </TouchableWithoutFeedback>
+ }
+@@ -37,7 +37,7 @@ export const PreventDoubleClickWithOpacity=(props)=>{
+         },1000))
+     }
+     return<TouchableOpacity style={props.style} onPress={()=>{
+-        handleClick()}}>
++        handleClick()}} {...props}>
+         {props.children}
+     </TouchableOpacity>
+ }
+\ No newline at end of file

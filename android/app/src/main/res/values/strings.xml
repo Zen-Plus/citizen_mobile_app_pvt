@@ -1,0 +1,6 @@
+<resources>
+    <!-- For Production -->
+    <!-- <string name="app_name">Zenzo</string> -->
+    <!-- For Uat  -->
+    <string name="app_name">UZenzo</string>
+</resources>
