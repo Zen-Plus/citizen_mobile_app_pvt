@@ -10,6 +10,8 @@ import {
 import {tripsData} from '../../constants/data';
 
 const initialState = {
+  isAppFirstLaunch: true,
+
   configurationLoading: false,
   configurationSuccess: null,
   configurationFail: false,
@@ -236,6 +238,11 @@ const initialState = {
 
 const AppReducer = (state = initialState, action) => {
   switch (action.type) {
+    case appActions.SET_IS_FIRST_LAUNCH:
+      return {
+        ...state,
+        isAppFirstLaunch: action.payload,
+      };
     case appActions.CONFIGURATION.START:
       return {
         ...state,

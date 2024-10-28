@@ -1,4 +1,6 @@
 export default {
+  SET_IS_FIRST_LAUNCH: 'app.set_is_first_launch',
+
   CONFIGURATION: {
     START: 'app.configuration:start',
     SUCCESS: 'app.configuration:success',

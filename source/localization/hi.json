@@ -588,7 +588,10 @@
     "corporate": "Corporate",
     "clientName": "Client Name",
     "talkNow": "Talk to Us Now",
-    "CallSupport": "Call Support"
+    "CallSupport": "Call Support",
+    "userNotice": "This application is still under development phase. For any issues please contact on below toll-free number.",
+    "tollFreeNumber": "180018001800",
+    "useAppButtonMessage": "Still use application"
   },
   "uploadForm": {
     "uploadForm": "फॉर्म अपलोड करें",

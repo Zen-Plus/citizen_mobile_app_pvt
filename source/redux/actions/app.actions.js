@@ -13,6 +13,11 @@ export const updateOfflineLogin = data => ({
   payload: data,
 });
 
+export const setIsInitialLaunch = data => ({
+  type: appActions.SET_IS_FIRST_LAUNCH,
+  payload: data,
+});
+
 export const configuration = data => ({
   type: commonActions.COMMON_API_CALL,
   subtypes: appActions.CONFIGURATION,

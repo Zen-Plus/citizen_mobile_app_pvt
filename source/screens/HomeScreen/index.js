@@ -27,6 +27,8 @@ import {
   resetEndTrip,
   getDashboardVehicals,
   MyRequestDetailsReset,
+  configuration,
+  setIsInitialLaunch,
 } from '../../redux/actions/app.actions';
 import LinearGradient from 'react-native-linear-gradient';
 import {navigations} from '../../constants';
@@ -58,6 +60,9 @@ import {RNImage} from '../../components';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import SelectionItemsRow from './SelectionItemsRow';
 import FastImage from 'react-native-fast-image';
+import Feather from 'react-native-vector-icons/Feather';
+import { openContact } from '../../components/functions';
+import Modal from 'react-native-modal';
 
 const {normalize, heightScale, widthScale, moderateScale} = scaling;
 
@@ -101,6 +106,20 @@ const HomeScreen = props => {
   const [isLoader, setLoader] = useState(false);
   const [isCorporateBookingModalVisible, setCorporateBookingModalVisible] = useState({});
   const [selectedWidget, setSelectedWidget] = useState(null);
+  const [isNoticeContainerVisible, setNoticeContainerVisible] = useState(false);
+
+  useEffect(() => {
+    try {
+      //fetch Notice Popup flag from configuration api state
+      const isNoticePopupEnabled = true;//JSON.parse(props?.configurationSuccess?.data[0]?.metadata)?.mappingRequired ?? false;
+      //Check if is enabled and its fresh launch
+      setNoticeContainerVisible(isNoticePopupEnabled && props.isAppFirstLaunch);
+    } catch (error) {
+      //If any error occurs dont show popup.
+      setNoticeContainerVisible(false);
+      console.log("===> configuration api err : Could not reterive Notice Popup flag", error);
+    }
+  }, []);
 
   function getRequestDetails(data, timerData) {
     myRequestDetailsApi(data)
@@ -426,195 +445,255 @@ const HomeScreen = props => {
   };
 
   return (
-    <View style={styles.container}>
-      {(props.myRequestDetailsLoading ||
-        props.getTypeOfDoctorsLoading ||
-        props.getDashboardVehicalsLoading ||
-        props.documnentLoading ||
-        isLoader) && <Loader />}
-      <IntercityModal
-        isIntercityVisible={isIntercityVisible}
-        supportNumber={props.supportNumber}
-        setIsIntercityVisible={value => {
-          setIsIntercityVisible(value);
-        }}
-      />
-
-      {!!Object.keys(isCorporateBookingModalVisible).length && (
-        <CorporateBookingModal
-          isVisible={!!Object.keys(isCorporateBookingModalVisible).length}
-          onCancel={() => { setCorporateBookingModalVisible({}); }}
-          onYes={corporateBooking}
-          onNo={() => {
-            setCorporateBookingModalVisible({});
-            regularBooking();
+      <View style={styles.container}>
+        <Modal isVisible={isNoticeContainerVisible} style={styles.modal}>
+          <View style={styles.noticeContainer}>
+            <Text style={styles.title}>Notice !</Text>
+            <Text style={styles.subTitle1}>{homeScreen.userNotice}</Text>
+            <TouchableOpacity
+              onPress={() => { openContact(homeScreen.tollFreeNumber) }}>
+              <View style={[styles.supportButton, { backgroundColor: colors.lightRed2 }]}>
+                <Feather
+                  name="phone-call"
+                  size={20}
+                  color={colors.Gainsboro}
+                  style={styles.phoneIcon}
+                />
+                <Text style={styles.buttonText}>{homeScreen.tollFreeNumber}</Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => { setNoticeContainerVisible(false), props.setIsInitialLaunch(false) }}>
+              <View style={styles.supportButton}>
+                <Feather
+                  name="log-in"
+                  size={20}
+                  color={colors.Gainsboro}
+                  style={styles.phoneIcon}
+                />
+                <Text style={styles.buttonText}>{homeScreen.useAppButtonMessage}</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+        </Modal>
+        {(props.myRequestDetailsLoading ||
+          props.getTypeOfDoctorsLoading ||
+          props.getDashboardVehicalsLoading ||
+          props.documnentLoading ||
+          isLoader) && <Loader />}
+        <IntercityModal
+          isIntercityVisible={isIntercityVisible}
+          supportNumber={props.supportNumber}
+          setIsIntercityVisible={value => {
+            setIsIntercityVisible(value);
           }}
         />
-      )}
 
-      <LinearGradient
-        style={{flex: 1}}
-        colors={[colors.white, colors.PaleBlue, colors.PaleBlue]}>
-        <ScrollView
-          contentContainerStyle={{
-            paddingBottom: bottom + 20,
-          }}
-          style={[styles.container]}
-          ref={scrollRef}
-          bounces={false}
-          showsVerticalScrollIndicator={false}>
-          <SafeAreaView />
-          {/* nav header start */}
-          <View style={styles.headerImgSection}>
-            <TouchableOpacity
-              onPress={() => props.navigation.toggleDrawer()}
-              style={styles.touchView}>
-              <Icon name="menu" color={colors.DarkSlateGray} size={30} />
-            </TouchableOpacity>
-            <Text style={styles.helloText} numberOfLines={1}>
-              {homeScreen.hello}{' '}
-              <Text style={styles.name}>{profileData.name}</Text>{' '}
-            </Text>
-            <View style={styles.rowContainer}>
+        {!!Object.keys(isCorporateBookingModalVisible).length && (
+          <CorporateBookingModal
+            isVisible={!!Object.keys(isCorporateBookingModalVisible).length}
+            onCancel={() => { setCorporateBookingModalVisible({}); }}
+            onYes={corporateBooking}
+            onNo={() => {
+              setCorporateBookingModalVisible({});
+              regularBooking();
+            }}
+          />
+        )}
+
+        <LinearGradient
+          style={{flex: 1}}
+          colors={[colors.white, colors.PaleBlue, colors.PaleBlue]}>
+          <ScrollView
+            contentContainerStyle={{
+              paddingBottom: bottom + 20,
+            }}
+            style={[styles.container]}
+            ref={scrollRef}
+            bounces={false}
+            showsVerticalScrollIndicator={false}>
+            <SafeAreaView />
+            {/* nav header start */}
+            <View style={styles.headerImgSection}>
               <TouchableOpacity
-                activeOpacity={0.8}
-                onPress={() => {
-                  props.navigation.navigate(navigations.Notifications);
-                }}
-                style={styles.notification}>
-                <Icon name="bell" size={28} color={colors.DarkSlateGray} />
-                {unreadNotifications || unreadAlerts || unreadUpdates ? (
-                  <View style={styles.dot}>
-                    <Text style={styles.notificationCount}>
-                      {unreadNotifications + unreadAlerts + unreadUpdates > 99
-                        ? '99+'
-                        : unreadNotifications + unreadAlerts + unreadUpdates}
-                    </Text>
-                  </View>
-                ) : null}
+                onPress={() => props.navigation.toggleDrawer()}
+                style={styles.touchView}>
+                <Icon name="menu" color={colors.DarkSlateGray} size={30} />
               </TouchableOpacity>
+              <Text style={styles.helloText} numberOfLines={1}>
+                {homeScreen.hello}{' '}
+                <Text style={styles.name}>{profileData.name}</Text>{' '}
+              </Text>
+              <View style={styles.rowContainer}>
+                <TouchableOpacity
+                  activeOpacity={0.8}
+                  onPress={() => {
+                    props.navigation.navigate(navigations.Notifications);
+                  }}
+                  style={styles.notification}>
+                  <Icon name="bell" size={28} color={colors.DarkSlateGray} />
+                  {unreadNotifications || unreadAlerts || unreadUpdates ? (
+                    <View style={styles.dot}>
+                      <Text style={styles.notificationCount}>
+                        {unreadNotifications + unreadAlerts + unreadUpdates > 99
+                          ? '99+'
+                          : unreadNotifications + unreadAlerts + unreadUpdates}
+                      </Text>
+                    </View>
+                  ) : null}
+                </TouchableOpacity>
+              </View>
             </View>
-          </View>
-          {/* nav header end */}
+            {/* nav header end */}
 
-          {/* carousel start */}
-          {props.documentSuccess?.data?.length && (
-            <View style={styles.carouselContainer}>
-              <SnapCarousal
-                loop={true}
-                ref={isCarousel}
-                enableMomentum={false}
-                lockScrollWhileSnapping
-                data={props.documentSuccess?.data}
-                renderItem={({item}) => <RNImage uuid={item.uuid} />}
-                sliderWidth={Dimensions.get('window').width / 1.1}
-                itemWidth={Dimensions.get('window').width / 1.1}
-                onSnapToItem={index => setIndex(index)}
+            {/* carousel start */}
+            {props.documentSuccess?.data?.length && (
+              <View style={styles.carouselContainer}>
+                <SnapCarousal
+                  loop={true}
+                  ref={isCarousel}
+                  enableMomentum={false}
+                  lockScrollWhileSnapping
+                  data={props.documentSuccess?.data}
+                  renderItem={({item}) => <RNImage uuid={item.uuid} />}
+                  sliderWidth={Dimensions.get('window').width / 1.1}
+                  itemWidth={Dimensions.get('window').width / 1.1}
+                  onSnapToItem={index => setIndex(index)}
+                />
+              </View>
+            )}
+            {/* carousel end */}
+
+            {/* ambulance list start */}
+            <View style={styles.chooseAmbulanceView}>
+              <Text
+                style={[
+                  styles.whatTxt,
+                  !props.documentSuccess?.data?.length && {marginTop: 20},
+                ]}>
+                {homeScreen.lookingForService}
+              </Text>
+              <SelectionItemsRow
+                props={props}
+                widgetsOrder={[...widgetsOrder].slice(0, 4)}
+                widgetsData={widgetsData}
+                isBookingVisible={
+                  isBookingVisible &&
+                  selectedWidget &&
+                  Math.floor(selectedWidget?.index / 4) === 0
+                }
+                vehicleType={vehicleType}
+                handleClickOnAmbulance={handleClickOnAmbulance}
+                closeAmbulanceDescriptionModal={closeAmbulanceDescriptionModal}
+                selectedWidget={selectedWidget}
+                requestType={requestType}
+                handleBookNowPress={handleBookNowPress}
               />
+              <SelectionItemsRow
+                props={props}
+                widgetsOrder={widgetsOrder.slice(4)}
+                widgetsData={widgetsData}
+                isBookingVisible={
+                  isBookingVisible &&
+                  selectedWidget &&
+                  Math.floor(selectedWidget?.index / 4) === 1
+                }
+                vehicleType={vehicleType}
+                handleClickOnAmbulance={handleClickOnAmbulance}
+                closeAmbulanceDescriptionModal={closeAmbulanceDescriptionModal}
+                selectedWidget={selectedWidget}
+                requestType={requestType}
+                handleBookNowPress={handleBookNowPress}
+              />
+
+              {/* ambulance cards  */}
+              <View style={[styles.whyUsBookingView]}>
+                {/* train  */}
+                <TouchableOpacity
+                  style={[styles.findAmbulanceView, styles.eventAmbulance]}
+                  onPress={() => {
+                    setRequestType(requestTypeConstant.trainAmbulance);
+                    requestCitizenTripCheck(requestTypeConstant.trainAmbulance);
+                  }}>
+                  <FastImage
+                    style={styles.ambulanceImage}
+                    source={TrainCardIcon}
+                    resizeMode={FastImage.resizeMode.stretch}
+                  />
+                </TouchableOpacity>
+
+                {/* air ambulance  */}
+                <TouchableOpacity
+                  style={[styles.findAmbulanceView, styles.eventAmbulance]}
+                  onPress={() => {
+                    setRequestType(requestTypeConstant.airAmbulance);
+                    requestCitizenTripCheck(requestTypeConstant.airAmbulance);
+                  }}>
+                  <FastImage
+                    style={styles.ambulanceImage}
+                    source={airBookAmbulance}
+                    resizeMode={FastImage.resizeMode.stretch}
+                  />
+                </TouchableOpacity>
+
+                {/* air ambulance  */}
+                <TouchableOpacity
+                  style={[styles.findAmbulanceView]}
+                  onPress={() =>
+                    props.navigation.navigate(navigations.EventRequest)
+                  }>
+                  <FastImage
+                    style={styles.ambulanceImage}
+                    source={eventAmbulance}
+                    resizeMode={FastImage.resizeMode.stretch}
+                  />
+                </TouchableOpacity>
+              </View>
             </View>
-          )}
-          {/* carousel end */}
+            {/* ambulance list end */}
 
-          {/* ambulance list start */}
-          <View style={styles.chooseAmbulanceView}>
-            <Text
-              style={[
-                styles.whatTxt,
-                !props.documentSuccess?.data?.length && {marginTop: 20},
-              ]}>
-              {homeScreen.lookingForService}
-            </Text>
-            <SelectionItemsRow
-              props={props}
-              widgetsOrder={[...widgetsOrder].slice(0, 4)}
-              widgetsData={widgetsData}
-              isBookingVisible={
-                isBookingVisible &&
-                selectedWidget &&
-                Math.floor(selectedWidget?.index / 4) === 0
-              }
-              vehicleType={vehicleType}
-              handleClickOnAmbulance={handleClickOnAmbulance}
-              closeAmbulanceDescriptionModal={closeAmbulanceDescriptionModal}
-              selectedWidget={selectedWidget}
-              requestType={requestType}
-              handleBookNowPress={handleBookNowPress}
-            />
-            <SelectionItemsRow
-              props={props}
-              widgetsOrder={widgetsOrder.slice(4)}
-              widgetsData={widgetsData}
-              isBookingVisible={
-                isBookingVisible &&
-                selectedWidget &&
-                Math.floor(selectedWidget?.index / 4) === 1
-              }
-              vehicleType={vehicleType}
-              handleClickOnAmbulance={handleClickOnAmbulance}
-              closeAmbulanceDescriptionModal={closeAmbulanceDescriptionModal}
-              selectedWidget={selectedWidget}
-              requestType={requestType}
-              handleBookNowPress={handleBookNowPress}
-            />
-
-            {/* ambulance cards  */}
-            <View style={[styles.whyUsBookingView]}>
-              {/* train  */}
-              <TouchableOpacity
-                style={[styles.findAmbulanceView, styles.eventAmbulance]}
-                onPress={() => {
-                  setRequestType(requestTypeConstant.trainAmbulance);
-                  requestCitizenTripCheck(requestTypeConstant.trainAmbulance);
-                }}>
-                <FastImage
-                  style={styles.ambulanceImage}
-                  source={TrainCardIcon}
-                  resizeMode={FastImage.resizeMode.stretch}
-                />
-              </TouchableOpacity>
-
-              {/* air ambulance  */}
-              <TouchableOpacity
-                style={[styles.findAmbulanceView, styles.eventAmbulance]}
-                onPress={() => {
-                  setRequestType(requestTypeConstant.airAmbulance);
-                  requestCitizenTripCheck(requestTypeConstant.airAmbulance);
-                }}>
-                <FastImage
-                  style={styles.ambulanceImage}
-                  source={airBookAmbulance}
-                  resizeMode={FastImage.resizeMode.stretch}
-                />
-              </TouchableOpacity>
-
-              {/* air ambulance  */}
-              <TouchableOpacity
-                style={[styles.findAmbulanceView]}
-                onPress={() =>
-                  props.navigation.navigate(navigations.EventRequest)
-                }>
-                <FastImage
-                  style={styles.ambulanceImage}
-                  source={eventAmbulance}
-                  resizeMode={FastImage.resizeMode.stretch}
-                />
+            <View style={{alignItems: 'center', marginVertical: heightScale(19)}}>
+              <TouchableOpacity onPress={onPressTouch}>
+                <Image source={ScrollToTop} />
               </TouchableOpacity>
             </View>
-          </View>
-          {/* ambulance list end */}
-
-          <View style={{alignItems: 'center', marginVertical: heightScale(19)}}>
-            <TouchableOpacity onPress={onPressTouch}>
-              <Image source={ScrollToTop} />
-            </TouchableOpacity>
-          </View>
-        </ScrollView>
-      </LinearGradient>
-    </View>
+          </ScrollView>
+        </LinearGradient>
+      </View>
   );
 };
 
 const styles = StyleSheet.create({
+  title: {
+    fontSize: normalize(24),
+    fontFamily: fonts.calibri.bold,
+    color: colors.black,
+  },
+  subTitle1: {
+    fontSize: normalize(14),
+    fontFamily: fonts.calibri.regular,
+    color: colors.black,
+    marginBottom: 10
+  },
+  modal: {
+    marginVertical: 50,
+    marginHorizontal: 10,
+    backgroundColor: 'transparent'
+  },
+  noticeContainer: {
+    width: '100%',
+    padding: 20,
+    borderRadius: 20,
+    backgroundColor: 'white',
+    paddingHorizontal: widthScale(16),
+  },
+  buttonText: {
+    fontSize: normalize(14),
+    color: colors.white,
+    fontFamily: fonts.calibri.medium,
+    lineHeight: normalize(20),
+    textAlign: 'center',
+  },
   container: {
     flex: 1,
   },
@@ -930,6 +1009,8 @@ const mapStateToProps = ({App, Auth}) => {
     getDashboardVehicalsLoading,
     getDashboardVehicalsFail,
     getDashboardVehicalsSuccess,
+    configurationSuccess,
+    isAppFirstLaunch,
   } = App;
   const {} = Auth;
   return {
@@ -955,6 +1036,8 @@ const mapStateToProps = ({App, Auth}) => {
     getDashboardVehicalsLoading,
     getDashboardVehicalsFail,
     getDashboardVehicalsSuccess,
+    configurationSuccess,
+    isAppFirstLaunch,
   };
 };
 
@@ -972,6 +1055,8 @@ const mapDispatchToProps = {
   getDocument,
   MyRequestDetailsReset,
   resetEndTrip,
+  configuration,
+  setIsInitialLaunch,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);
