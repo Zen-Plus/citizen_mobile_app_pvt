@@ -113,7 +113,9 @@ const HomeScreen = props => {
       //fetch Notice Popup flag from configuration api state
       const isNoticePopupEnabled = true;//JSON.parse(props?.configurationSuccess?.data[0]?.metadata)?.mappingRequired ?? false;
       //Check if is enabled and its fresh launch
-      setNoticeContainerVisible(isNoticePopupEnabled && props.isAppFirstLaunch);
+      setTimeout(() => {
+        setNoticeContainerVisible(isNoticePopupEnabled && props.isAppFirstLaunch);
+      }, 200);
     } catch (error) {
       //If any error occurs dont show popup.
       setNoticeContainerVisible(false);
@@ -446,7 +448,7 @@ const HomeScreen = props => {
 
   return (
       <View style={styles.container}>
-        <Modal isVisible={isNoticeContainerVisible} style={styles.modal}>
+        <Modal isVisible={isNoticeContainerVisible} style={styles.modal} animationIn="slideInUp" animationOut="slideOutDown" useNativeDriver={true}>
           <View style={styles.noticeContainer}>
             <Text style={styles.title}>Notice !</Text>
             <Text style={styles.subTitle1}>{homeScreen.userNotice}</Text>
