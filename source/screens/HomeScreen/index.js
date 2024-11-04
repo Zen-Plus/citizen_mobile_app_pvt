@@ -111,7 +111,7 @@ const HomeScreen = props => {
   useEffect(() => {
     try {
       //fetch Notice Popup flag from configuration api state
-      const isNoticePopupEnabled = true;//JSON.parse(props?.configurationSuccess?.data[0]?.metadata)?.mappingRequired ?? false;
+      const isNoticePopupEnabled = JSON.parse(props?.configurationSuccess?.data[0]?.metadata)?.isUnderMaintenance ?? false;
       //Check if is enabled and its fresh launch
       setTimeout(() => {
         setNoticeContainerVisible(isNoticePopupEnabled && props.isAppFirstLaunch);
