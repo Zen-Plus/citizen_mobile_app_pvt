@@ -301,37 +301,39 @@ function BookingInfo(props) {
         vehicleType: props.formValues?.vehicleType?.id,
       };
       setLoader(true);
-      searchAmbulanceApi(objectToSend)
-        .then(res => {
-          const tempData = res.data?.data || {};
-          props.setValues('vehicleDetailsApiResponse', tempData);
-          if (tempData?.distance?.distance / 1000 > intercityKm) {
-            setIntercityModal(true);
-          }
-          setLocationData(res.data.data);
-          setTotalPrice({
-            vehiclePrice: tempData?.vehicleTypeData[0].vehiclePrice,
-            gst: tempData?.vehicleTypeData[0].gst,
-          });
-          const tempVehicleData =
-            (tempData.vehicleTypeData &&
-              tempData.vehicleTypeData.length && {
-                ...tempData.vehicleTypeData[0],
-                ...tempData.distance,
-                areaType: tempData.areaType,
-                areaCode: tempData.areaCode,
-              }) ||
-            {};
-          props.setValues('vehicleDetails', tempVehicleData);
-          setLoader(false);
-        })
-        .catch(e => {
-          setLoader(false);
-          const _code = e?.response?.data?.apierror?.code;
-          if (_code === 'ZQTZA0053' || _code === 'ZQTZA0054') {
-            handleSOSSubmit();
-          }
-        });
+      //Directly generate lead
+      handleSOSSubmit();
+      // searchAmbulanceApi(objectToSend)
+      //   .then(res => {
+      //     const tempData = res.data?.data || {};
+      //     props.setValues('vehicleDetailsApiResponse', tempData);
+      //     if (tempData?.distance?.distance / 1000 > intercityKm) {
+      //       setIntercityModal(true);
+      //     }
+      //     setLocationData(res.data.data);
+      //     setTotalPrice({
+      //       vehiclePrice: tempData?.vehicleTypeData[0].vehiclePrice,
+      //       gst: tempData?.vehicleTypeData[0].gst,
+      //     });
+      //     const tempVehicleData =
+      //       (tempData.vehicleTypeData &&
+      //         tempData.vehicleTypeData.length && {
+      //           ...tempData.vehicleTypeData[0],
+      //           ...tempData.distance,
+      //           areaType: tempData.areaType,
+      //           areaCode: tempData.areaCode,
+      //         }) ||
+      //       {};
+      //     props.setValues('vehicleDetails', tempVehicleData);
+      //     setLoader(false);
+      //   })
+      //   .catch(e => {
+      //     setLoader(false);
+      //     const _code = e?.response?.data?.apierror?.code;
+      //     if (_code === 'ZQTZA0053' || _code === 'ZQTZA0054') {
+      //       handleSOSSubmit();
+      //     }
+      //   });
     } else if (
       type === requestTypeConstant.doctorAtHome &&
       props.formValues.pickUpLatLong.length == 2 &&
