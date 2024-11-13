@@ -953,7 +953,7 @@
       "pleaseWait": "Please wait while we find the nearest Ambulance for you.",
       "bookingAmbulanceFor": "Book Ambulance for",
       "leadGeneratedMessage": "We have received your request",
-      "leadAlreadyGeneratedMessage": "We have already received your request"
+      "leadAlreadyGeneratedMessage": "You already have an active request"
     },
     "PET_VETERINARY_AMBULANCE": {
       "heading": "Book Ambulance",
@@ -974,7 +974,7 @@
       "breed": "Breed",
       "gender": "Gender",
       "leadGeneratedMessage": "We have received your request",
-      "leadAlreadyGeneratedMessage": "We have already received your request"
+      "leadAlreadyGeneratedMessage": "You already have an active request"
     },
     "AIR_AMBULANCE": {
       "bookAmbulance": "Book Ambulance",
@@ -1434,6 +1434,7 @@
   "requestCreated": {
     "yourRequestHaveBeenReceived": "Your request have been received",
     "ourTeamWillReachOutToYouSoon": "Our team will reach out to you soon",
+    "ourTeamWillRespond": "Please wait for our team to respond back",
     "goBackToHomePage": "Go Back to Home Page"
   },
   "feedbackScreen":{

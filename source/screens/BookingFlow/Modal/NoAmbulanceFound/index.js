@@ -31,7 +31,7 @@ const RequestCreated = props => {
               }
             </Text>
             <Text style={styles.subHeadingStyle}>
-              {strings.requestCreated.ourTeamWillReachOutToYouSoon}
+              {data.isRequestAlreadyCreated ? strings.requestCreated.ourTeamWillRespond : strings.requestCreated.ourTeamWillReachOutToYouSoon}
             </Text>
           </View>
           <Image
