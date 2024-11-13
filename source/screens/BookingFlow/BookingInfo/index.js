@@ -300,9 +300,8 @@ function BookingInfo(props) {
         bookingCategory: type,
         vehicleType: props.formValues?.vehicleType?.id,
       };
-      setLoader(true);
-      //Directly generate lead
-      handleSOSSubmit();
+      setLoader(false);
+      //Dont search for ambulance.
       // searchAmbulanceApi(objectToSend)
       //   .then(res => {
       //     const tempData = res.data?.data || {};
@@ -360,11 +359,11 @@ function BookingInfo(props) {
           const tempVehicleData =
             (tempData.vehicleTypeData &&
               tempData.vehicleTypeData.length && {
-                ...tempData.vehicleTypeData[0],
-                ...tempData.distance,
-                areaType: tempData.areaType,
-                areaCode: tempData.areaCode,
-              }) ||
+              ...tempData.vehicleTypeData[0],
+              ...tempData.distance,
+              areaType: tempData.areaType,
+              areaCode: tempData.areaCode,
+            }) ||
             {};
           props.setValues('vehicleDetails', tempVehicleData);
           setLoader(false);
@@ -389,7 +388,7 @@ function BookingInfo(props) {
       setNoAmbulanceFound({
         isVisible: true,
         data: {
-          isRequestAlreadyCreated: true,
+          isRequestAlreadyCreated: false,
         },
       });
     }
@@ -863,6 +862,10 @@ function BookingInfo(props) {
     ) {
       setDateTimeError(false);
       handleConfirmBookingPress();
+    } else if (type === requestTypeConstant.GroundAmbulance ||
+      type === requestTypeConstant.petVeterinaryAmbulance) {
+      //Directly generate lead
+      handleSOSSubmit();
     } else {
       if (displayField === Fields.PatientDetails) {
         handleConfirmBookingPress();
@@ -874,7 +877,7 @@ function BookingInfo(props) {
 
   const tat =
     type === requestTypeConstant.airAmbulance ||
-    type === requestTypeConstant.trainAmbulance
+      type === requestTypeConstant.trainAmbulance
       ? airAmbulanceTat
       : ambulanceTat;
 
@@ -919,7 +922,7 @@ function BookingInfo(props) {
                     marginHorizontal: widthScale(20),
                   }}>
                   {type !== requestTypeConstant.airAmbulance &&
-                  type !== requestTypeConstant.trainAmbulance ? (
+                    type !== requestTypeConstant.trainAmbulance ? (
                     <View style={{flexDirection: 'row', alignItems: 'center'}}>
                       {type !== requestTypeConstant.doctorAtHome ? (
                         <DottedVertical />
@@ -963,7 +966,7 @@ function BookingInfo(props) {
                         )}
                       </View>
                       {type !== requestTypeConstant.airAmbulance &&
-                      type !== requestTypeConstant.trainAmbulance ? (
+                        type !== requestTypeConstant.trainAmbulance ? (
                         <View
                           style={{
                             position: 'absolute',
@@ -1089,28 +1092,33 @@ function BookingInfo(props) {
                 {type !== requestTypeConstant.airAmbulance &&
                 type !== requestTypeConstant.trainAmbulance ? (
                   <>
-                    <View
-                      style={{
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                        paddingVertical: 7,
-                        backgroundColor: colors.PaleBlue,
-                        borderRadius: moderateScale(100),
-                        alignItems: 'center',
-                        paddingHorizontal: 16,
-                        marginTop: 10,
-                        marginHorizontal: 20,
-                      }}>
-                      <Text style={styles.totalPriceText}>
-                        {strings.bookingFlow.totalPrice}
-                      </Text>
-                      <Text style={styles.totalPrice}>
-                        {'\u20B9'}{' '}
-                        {[null, undefined].includes(totalPriceWithGST)
-                          ? strings.bookingFlow.na
-                          : parseFloat(totalPriceWithGST).toFixed(2)}
-                      </Text>
-                    </View>
+                    {
+                      (type !== requestTypeConstant.GroundAmbulance &&
+                        type !== requestTypeConstant.petVeterinaryAmbulance &&
+                        <View
+                          style={{
+                            flexDirection: 'row',
+                            justifyContent: 'space-between',
+                            paddingVertical: 7,
+                            backgroundColor: colors.PaleBlue,
+                            borderRadius: moderateScale(100),
+                            alignItems: 'center',
+                            paddingHorizontal: 16,
+                            marginTop: 10,
+                            marginHorizontal: 20,
+                          }}>
+                          <Text style={styles.totalPriceText}>
+                            {strings.bookingFlow.totalPrice}
+                          </Text>
+                          <Text style={styles.totalPrice}>
+                            {'\u20B9'}{' '}
+                            {[null, undefined].includes(totalPriceWithGST)
+                              ? strings.bookingFlow.na
+                              : parseFloat(totalPriceWithGST).toFixed(2)}
+                          </Text>
+                        </View>
+                      )
+                    }
                     <View
                       style={{flexDirection: 'row', justifyContent: 'center'}}>
                       {displayField === Fields.PatientDetails ? (
@@ -1135,11 +1143,14 @@ function BookingInfo(props) {
                           </KeyboardAvoidingView>
                         </Modal>
                       ) : (
-                        <AmbulanceAndPaymentDetail
-                          totalPrice={totalPrice}
-                          setTotalPrice={setTotalPrice}
-                          {...props}
-                        />
+                            (type !== requestTypeConstant.GroundAmbulance &&
+                              type !== requestTypeConstant.petVeterinaryAmbulance &&
+                              <AmbulanceAndPaymentDetail
+                                totalPrice={totalPrice}
+                                setTotalPrice={setTotalPrice}
+                                {...props}
+                              />
+                            )
                       )}
                     </View>
                   </>

@@ -9,22 +9,24 @@ import Feather from 'react-native-vector-icons/Feather';
 const {normalize, widthScale, heightScale} = scaling;
 
 const RequestCreated = props => {
-  const {onPress, bookingCategory} = props;
+  const { onPress, bookingCategory, data } = props;
   const strings = useContext(Context).getStrings();
-    return (
+  return (
     <View style={styles.modal}>
       <ScrollView style={styles.primaryContainer}>
         <View style={styles.innerContainer}>
           <View style={styles.titleView}>
             {
               bookingCategory === requestTypeConstant.GroundAmbulance || bookingCategory === requestTypeConstant.petVeterinaryAmbulance ?
-                <Feather name="check-circle" size={28} color={colors.Green2} /> :
-                <Feather name="alert-octagon" size={28} color={colors.Red} />
+                <Feather name="check-circle" size={28} color={colors.Green2} style={styles.iconStyling} /> :
+                <Feather name="alert-octagon" size={28} color={colors.Red} style={styles.iconStyling} />
             }
             <Text style={styles.headingStyle}>
               {
                 bookingCategory === requestTypeConstant.GroundAmbulance || bookingCategory === requestTypeConstant.petVeterinaryAmbulance ?
-                  strings.groundAmbulance[bookingCategory]?.leadGeneratedMessage :
+                  (data.isRequestAlreadyCreated ?
+                    strings.groundAmbulance[bookingCategory]?.leadAlreadyGeneratedMessage :
+                    strings.groundAmbulance[bookingCategory]?.leadGeneratedMessage) :
                   strings.groundAmbulance[bookingCategory]?.noDataFound
               }
             </Text>
@@ -97,6 +99,9 @@ const styles = StyleSheet.create({
   titleView: {
     alignItems: 'center',
   },
+  iconStyling: {
+    marginBottom: 5
+  }
 });
 
 export default RequestCreated;
