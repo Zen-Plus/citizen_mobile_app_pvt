@@ -16,7 +16,9 @@ const ListItem = props => {
   const {item} = props;
 
   const getDateAndTime = () => {
-    if (item?.jobCreatedAt) {
+    if (item?.leadCreatedAt) {
+      return moment(item.leadCreatedAt).format('ddd, D MMM, h:mm A');
+    } else if (item?.jobCreatedAt) {
       return moment(item.jobCreatedAt).format('ddd, D MMM, h:mm A');
     } else if (item?.srCreatedAt) {
       return moment(item.srCreatedAt).format('ddd, D MMM, h:mm A');
@@ -36,7 +38,10 @@ const ListItem = props => {
         <View style={styles.headerContainer}>
           <View style={styles.imageContainer}>
             <Image
-              source={getVehicleIcon(item?.requestType?.id, item?.vehicleType)}
+              source={(leadIntegrationDetails?.requestType && leadIntegrationDetails?.vehicleType?.id)
+                ? getVehicleIcon(leadIntegrationDetails?.requestType, leadIntegrationDetails?.vehicleType?.id)
+                : getVehicleIcon(item?.requestType?.id, item?.vehicleType)
+              }
               style={styles.imageStyle}
               resizeMode="contain"
             />
@@ -64,7 +69,7 @@ const ListItem = props => {
           </View>
           <Text style={styles.bodyDetailsText}>
             {`${item?.vehicleTypeObj?.name || strings.common.na}  |  ${
-              item?.jobNumber || item?.srNumber
+              item?.leadNumber || item?.jobNumber || item?.srNumber
             }`}
           </Text>
         </View>
@@ -74,15 +79,11 @@ const ListItem = props => {
             <View style={styles.redDot} />
             <View>
               <Text style={styles.pickupAndDropText} numberOfLines={1}>
-                {`${item?.pickupLocation?.address}${
-                  item?.pickupLocation?.flat
-                    ? `, ${item?.pickupLocation?.flat}`
-                    : ''
-                }${
-                  item?.pickupLocation?.landmark
-                    ? `, ${item?.pickupLocation?.landmark}`
-                    : ''
-                }`}
+              {`${leadIntegrationDetails?.incidentAddress 
+                ? leadIntegrationDetails?.incidentAddress 
+                : `${item?.pickupLocation?.address}${item?.pickupLocation?.flat ? `, 
+                ${item?.pickupLocation?.flat}` : ''}${item?.pickupLocation?.landmark ? `, ${item?.pickupLocation?.landmark}` : ''}`
+              }`}
               </Text>
             </View>
           </View>
@@ -97,15 +98,11 @@ const ListItem = props => {
                 <View style={styles.blueDot} />
                 <View>
                   <Text style={styles.pickupAndDropText} numberOfLines={1}>
-                    {`${item?.dropLocation?.address}${
-                      item?.dropLocation?.flat
-                        ? `, ${item?.dropLocation?.flat}`
-                        : ''
-                    }${
-                      item?.dropLocation?.landmark
-                        ? `, ${item?.dropLocation?.landmark}`
-                        : ''
-                    }`}
+                  {`${leadIntegrationDetails?.dropAddress 
+                ? leadIntegrationDetails?.dropAddress 
+                : `${item?.dropLocation?.address}${item?.dropLocation?.flat ? `, 
+                ${item?.dropLocation?.flat}` : ''}${item?.dropLocation?.landmark ? `, ${item?.dropLocation?.landmark}` : ''}`
+              }`}
                   </Text>
                 </View>
               </View>

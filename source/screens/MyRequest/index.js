@@ -137,18 +137,21 @@ const MyRequests = props => {
     return (
       <TouchableOpacity
         onPress={() => {
-          props.MyRequestDetailsReset();
-          props.requestCitizenTripsReset();
-          props.navigation.navigate(navigations.MyrequestDetails, {
-            srId: item?.srId,
-            jobId: item?.jobId,
-            jobNumber: item?.jobNumber,
-          });
-          setPageSetting((preVal) => ({
-            ...preVal,
-            pageNo: 0,
-          }));
-        }}>
+          if (item?.srId) {
+            props.MyRequestDetailsReset();
+            props.requestCitizenTripsReset();
+            props.navigation.navigate(navigations.MyrequestDetails, {
+              srId: item?.srId,
+              jobId: item?.jobId,
+              jobNumber: item?.jobNumber,
+            });
+            setPageSetting((preVal) => ({
+              ...preVal,
+              pageNo: 0,
+            }));
+          }
+        }}
+        disabled={item?.leadNumber}>
         <ListItem item={item} index={index} />
       </TouchableOpacity>
     );
