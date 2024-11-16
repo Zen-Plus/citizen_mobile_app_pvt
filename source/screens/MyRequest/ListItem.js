@@ -14,6 +14,7 @@ const {normalize, widthScale, heightScale, moderateScale} = scaling;
 const ListItem = props => {
   const strings = React.useContext(Context).getStrings();
   const {item} = props;
+  const leadIntegrationDetails = JSON.parse(item?.leadIntegrationDetails);
 
   const getDateAndTime = () => {
     if (item?.leadCreatedAt) {
@@ -68,7 +69,7 @@ const ListItem = props => {
             <Text style={styles.dateAndTimeText}>{getDateAndTime()}</Text>
           </View>
           <Text style={styles.bodyDetailsText}>
-            {`${item?.vehicleTypeObj?.name || strings.common.na}  |  ${
+            {`${leadIntegrationDetails?.vehicleType?.name || item?.vehicleTypeObj?.name || strings.common.na}  |  ${
               item?.leadNumber || item?.jobNumber || item?.srNumber
             }`}
           </Text>
