@@ -6,6 +6,7 @@ import {Context} from '../providers/localization';
 import {tripStatus} from '../constants';
 import {
   serviceRequestStatus,
+  leadRequestStatus,
   requestTypeConstant,
   groundAmbulanceIcon,
   petVeterinaryAmbulanceIcon,
@@ -131,6 +132,7 @@ export const HmacSHA256_Encrypt = rawPassword => {
 export const renderRequestStatus = item => {
   const strings = React.useContext(Context).getStrings();
   const {requestHeading} = strings;
+  const leadIntegrationDetails = JSON.parse(item?.leadIntegrationDetails);
   if (item?.jobId) {
     if (
       item?.jobStatus === serviceRequestStatus.CLOSE &&
@@ -144,7 +146,7 @@ export const renderRequestStatus = item => {
         item?.tripStatus?.id || item?.tripStatus
       ];
     }
-  } else {
+  } else if (item?.srId) {
     if (
       (item?.srStatus === serviceRequestStatus.CLOSE ||
         item?.srStatus === serviceRequestStatus.CANCEL) &&
@@ -175,6 +177,14 @@ export const renderRequestStatus = item => {
       }
     } else {
       return requestHeading[item?.requestType?.id]?.requestSubmitted;
+    }
+  } else if (item?.leadNumber) {
+    if (item?.leadStatus === leadRequestStatus.OPEN) {
+      return requestHeading[leadIntegrationDetails?.requestType]
+        ?.requestSubmitted;
+    } else if (item?.leadStatus === leadRequestStatus.CANCEL) {
+      return requestHeading[leadIntegrationDetails?.requestType]
+        ?.requestCancelled;
     }
   }
 };

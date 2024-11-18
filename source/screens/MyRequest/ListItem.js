@@ -60,7 +60,7 @@ const ListItem = props => {
                 styles.amountText,
                 isRequestStatusCancelled(item) && {color: colors.Red},
               ]}>
-              {'\u20B9'} {item.totalFare}
+              {'\u20B9'} {item.totalFare || leadIntegrationDetails?.approximateAmount}
             </Text>
           </View>
         </View>
