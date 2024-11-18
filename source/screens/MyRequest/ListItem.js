@@ -17,12 +17,12 @@ const ListItem = props => {
   const leadIntegrationDetails = JSON.parse(item?.leadIntegrationDetails);
 
   const getDateAndTime = () => {
-    if (item?.leadCreatedAt) {
-      return moment(item.leadCreatedAt).format('ddd, D MMM, h:mm A');
-    } else if (item?.jobCreatedAt) {
+    if (item?.jobCreatedAt) {
       return moment(item.jobCreatedAt).format('ddd, D MMM, h:mm A');
     } else if (item?.srCreatedAt) {
       return moment(item.srCreatedAt).format('ddd, D MMM, h:mm A');
+    } else if (item?.leadCreatedAt) {
+      return moment(item.leadCreatedAt).format('ddd, D MMM, h:mm A');
     } else {
       return strings.common.na;
     }
@@ -39,9 +39,9 @@ const ListItem = props => {
         <View style={styles.headerContainer}>
           <View style={styles.imageContainer}>
             <Image
-              source={(leadIntegrationDetails?.requestType && leadIntegrationDetails?.vehicleType?.id)
-                ? getVehicleIcon(leadIntegrationDetails?.requestType, leadIntegrationDetails?.vehicleType?.id)
-                : getVehicleIcon(item?.requestType?.id, item?.vehicleType)
+              source={(item?.requestType?.id &&  item?.vehicleType)
+                ? getVehicleIcon(item?.requestType?.id, item?.vehicleType)
+                : getVehicleIcon(leadIntegrationDetails?.requestType, leadIntegrationDetails?.vehicleType?.id)
               }
               style={styles.imageStyle}
               resizeMode="contain"
@@ -69,9 +69,8 @@ const ListItem = props => {
             <Text style={styles.dateAndTimeText}>{getDateAndTime()}</Text>
           </View>
           <Text style={styles.bodyDetailsText}>
-            {`${leadIntegrationDetails?.vehicleType?.name || item?.vehicleTypeObj?.name || strings.common.na}  |  ${
-              item?.leadNumber || item?.jobNumber || item?.srNumber
-            }`}
+            {`${item?.vehicleTypeObj?.name || leadIntegrationDetails?.vehicleType?.name || strings.common.na}  |  ${
+              item?.jobNumber || item?.srNumber || item?.leadNumber}`}
           </Text>
         </View>
         <View style={styles.diffView} />
@@ -80,10 +79,10 @@ const ListItem = props => {
             <View style={styles.redDot} />
             <View>
               <Text style={styles.pickupAndDropText} numberOfLines={1}>
-              {`${leadIntegrationDetails?.incidentAddress 
-                ? leadIntegrationDetails?.incidentAddress 
-                : `${item?.pickupLocation?.address}${item?.pickupLocation?.flat ? `, 
+              {`${item?.pickupLocation?.address 
+                ? `${item?.pickupLocation?.address}${item?.pickupLocation?.flat ? `, 
                 ${item?.pickupLocation?.flat}` : ''}${item?.pickupLocation?.landmark ? `, ${item?.pickupLocation?.landmark}` : ''}`
+                 : leadIntegrationDetails?.incidentAddress
               }`}
               </Text>
             </View>
@@ -99,10 +98,10 @@ const ListItem = props => {
                 <View style={styles.blueDot} />
                 <View>
                   <Text style={styles.pickupAndDropText} numberOfLines={1}>
-                  {`${leadIntegrationDetails?.dropAddress 
-                ? leadIntegrationDetails?.dropAddress 
-                : `${item?.dropLocation?.address}${item?.dropLocation?.flat ? `, 
+                  {`${item?.dropLocation?.address
+                ? `${item?.dropLocation?.address}${item?.dropLocation?.flat ? `, 
                 ${item?.dropLocation?.flat}` : ''}${item?.dropLocation?.landmark ? `, ${item?.dropLocation?.landmark}` : ''}`
+                : leadIntegrationDetails?.dropAddress
               }`}
                   </Text>
                 </View>

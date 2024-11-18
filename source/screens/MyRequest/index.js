@@ -151,7 +151,7 @@ const MyRequests = props => {
             }));
           }
         }}
-        disabled={item?.leadNumber}>
+        disabled={!item?.srId}>
         <ListItem item={item} index={index} />
       </TouchableOpacity>
     );
