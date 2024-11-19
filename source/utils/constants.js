@@ -71,7 +71,7 @@ export const serviceRequestStatus = {
 
 export const leadRequestStatus = {
   OPEN: 'OPEN',
-  CLOSE: 'CLOSE',
+  CLOSE: 'CLOSED',
   CANCEL: 'CANCEL',
 };
 

@@ -182,9 +182,9 @@ export const renderRequestStatus = item => {
     if (item?.leadStatus === leadRequestStatus.OPEN) {
       return requestHeading[leadIntegrationDetails?.requestType]
         ?.requestSubmitted;
-    } else if (item?.leadStatus === leadRequestStatus.CANCEL) {
+    } else if (item?.leadStatus === leadRequestStatus.CLOSE) {
       return requestHeading[leadIntegrationDetails?.requestType]
-        ?.requestCancelled;
+        ?.requestClosed;
     }
   }
 };

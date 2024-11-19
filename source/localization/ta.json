@@ -1106,6 +1106,7 @@
       "AmbulanceDetails": "Ambulance Details",
       "driver": "Driver",
       "requestCancelled": "Request Cancelled",
+      "requestClosed": "Request Closed",
       "negotiationInitiated": "Negotiation Initiated",
       "booked": "Booked",
       "requestSubmitted": "Request Submitted",
