@@ -15,8 +15,7 @@ const ListItem = props => {
   const strings = React.useContext(Context).getStrings();
   const {item} = props;
   const leadIntegrationDetails = JSON.parse(item?.leadIntegrationDetails);
-  console.log("#######");
-  console.log(item?.dropLocation ? "testing" : leadIntegrationDetails?.dropAddress);
+
   const getDateAndTime = () => {
     if (item?.jobCreatedAt) {
       return moment(item.jobCreatedAt).format('ddd, D MMM, h:mm A');
@@ -88,7 +87,7 @@ const ListItem = props => {
               </Text>
             </View>
           </View>
-          {!!item?.dropLocation?.address || leadIntegrationDetails?.dropAddress && (
+          {(!!item?.dropLocation?.address || leadIntegrationDetails?.dropAddress) && (
             <>
               <View style={styles.dottedLine} />
               <View
