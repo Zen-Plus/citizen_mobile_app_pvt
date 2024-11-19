@@ -953,8 +953,8 @@
       "vehicleType": "Ambulance",
       "pleaseWait": "Please wait while we find the nearest Ambulance for you.",
       "bookingAmbulanceFor": "Book Ambulance for",
-      "leadGeneratedMessage": "We have received your request",
-      "leadAlreadyGeneratedMessage": "You already have an active request"
+      "leadGeneratedMessage": "ഞങ്ങൾ നിങ്ങളുടെ അഭ്യർത്ഥന ലഭിച്ചിട്ടുണ്ട്",
+      "leadAlreadyGeneratedMessage": "നിങ്ങൾക്കു് ഇതിനകം ഒരു സജീവമായ അഭ്യർത്ഥനയുണ്ട്"
     },
     "PET_VETERINARY_AMBULANCE": {
       "heading": "Book Ambulance",
@@ -974,8 +974,8 @@
       "category": "Category",
       "breed": "Breed",
       "gender": "Gender",
-      "leadGeneratedMessage": "We have received your request",
-      "leadAlreadyGeneratedMessage": "You already have an active request"
+      "leadGeneratedMessage": "ഞങ്ങൾ നിങ്ങളുടെ അഭ്യർത്ഥന ലഭിച്ചിട്ടുണ്ട്",
+      "leadAlreadyGeneratedMessage": "നിങ്ങൾക്കു് ഇതിനകം ഒരു സജീവമായ അഭ്യർത്ഥനയുണ്ട്"
     },
     "AIR_AMBULANCE": {
       "bookAmbulance": "Book Ambulance",
@@ -1397,6 +1397,7 @@
     "selectDropLocation": "Select Drop Address",
     "pickAndDropSame": "Pickup and Drop locations cannot be same",
     "totalPrice": "Total Price",
+    "approximatePrice": "ആകെ വില*",
     "confirm": "Confirm",
     "ambulance": "Ambulance",
     "payment": "Payment",
@@ -1433,8 +1434,8 @@
   },
   "requestCreated": {
     "yourRequestHaveBeenReceived": "Your request have been received",
-    "ourTeamWillReachOutToYouSoon": "Our team will reach out to you soon",
-    "ourTeamWillRespond": "Please wait for our team to respond back",
+    "ourTeamWillReachOutToYouSoon": "ഞങ്ങളുടെ സംഘം ഉടൻ നിങ്ങളെ സമീപിക്കും",
+    "ourTeamWillRespond": "ദയവായി ഞങ്ങളുടെ സംഘത്തിന്റെ പ്രതികരണത്തിനായി കാത്തിരിക്കുക",
     "goBackToHomePage": "Go Back to Home Page"
   },
   "feedbackScreen":{

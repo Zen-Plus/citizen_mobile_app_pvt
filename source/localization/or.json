@@ -951,8 +951,8 @@
       "vehicleType": "Ambulance",
       "pleaseWait": "Please wait while we find the nearest Ambulance for you.",
       "bookingAmbulanceFor": "Book Ambulance for",
-      "leadGeneratedMessage": "We have received your request",
-      "leadAlreadyGeneratedMessage": "You already have an active request"
+      "leadGeneratedMessage": "ଆମେ ଆପଣଙ୍କର ଅନୁରୋଧ ଗ୍ରହଣ କରିଛୁ",
+      "leadAlreadyGeneratedMessage": "ଆପଣଙ୍କ ପାଖରେ ପୂର୍ବରୁ ଏକ ସକ୍ରିୟ ଅନୁରୋଧ ରହିଛି"
     },
     "PET_VETERINARY_AMBULANCE": {
       "heading": "Book Ambulance",
@@ -972,8 +972,8 @@
       "category": "Category",
       "breed": "Breed",
       "gender": "Gender",
-      "leadGeneratedMessage": "We have received your request",
-      "leadAlreadyGeneratedMessage": "You already have an active request"
+      "leadGeneratedMessage": "ଆମେ ଆପଣଙ୍କର ଅନୁରୋଧ ଗ୍ରହଣ କରିଛୁ",
+      "leadAlreadyGeneratedMessage": "ଆପଣଙ୍କ ପାଖରେ ପୂର୍ବରୁ ଏକ ସକ୍ରିୟ ଅନୁରୋଧ ରହିଛି"
     },
     "AIR_AMBULANCE": {
       "bookAmbulance": "Book Ambulance",
@@ -1396,6 +1396,7 @@
     "selectDropLocation": "Select Drop Address",
     "pickAndDropSame": "Pickup and Drop locations cannot be same",
     "totalPrice": "Total Price",
+    "approximatePrice": "ମୋଟ ମୂଲ୍ୟ*",
     "confirm": "Confirm",
     "ambulance": "Ambulance",
     "payment": "Payment",
@@ -1433,8 +1434,8 @@
   },
   "requestCreated": {
     "yourRequestHaveBeenReceived": "Your request have been received",
-    "ourTeamWillReachOutToYouSoon": "Our team will reach out to you soon",
-    "ourTeamWillRespond": "Please wait for our team to respond back",
+    "ourTeamWillReachOutToYouSoon": "ଆମ ଦଳ ଆପଣଙ୍କ ସହ ଶୀଘ୍ର ସମ୍ପର୍କ କରିବ",
+    "ourTeamWillRespond": "ଦୟାକରି ଆମର ଦଳର ପ୍ରତିକ୍ରିୟା ପାଇଁ ଅପେକ୍ଷା କରନ୍ତୁ",
     "goBackToHomePage": "Go Back to Home Page"
   },
   "feedbackScreen":{

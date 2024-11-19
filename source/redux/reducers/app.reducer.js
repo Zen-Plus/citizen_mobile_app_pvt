@@ -110,6 +110,10 @@ const initialState = {
   airAmbulanceMasterDataSuccess: null,
   airAmbulanceMasterDataFail: false,
 
+  groundPetDistanceAmountDataLoading: false,
+  groundPetDistanceAmountDataSuccess: null,
+  groundPetDistanceAmountDataFail: false,
+
   cancelReasonLoading: false,
   cancelReasonSuccess: null,
   cancelReasonFail: false,
@@ -557,7 +561,35 @@ const AppReducer = (state = initialState, action) => {
         airAmbulanceMasterDataSuccess: null,
         airAmbulanceMasterDataFail: false,
       };
+    case appActions.GROUND_PET_DISTANCE_AMOUNT_DATA.START:
+      return {
+        ...state,
+        groundPetDistanceAmountDataLoading: true,
+        groundPetDistanceAmountDataSuccess: null,
+        groundPetDistanceAmountDataFail: false,
+      };
+    case appActions.GROUND_PET_DISTANCE_AMOUNT_DATA.SUCCESS:
+      return {
+        ...state,
+        groundPetDistanceAmountDataLoading: false,
+        groundPetDistanceAmountDataSuccess: action.payload,
+        groundPetDistanceAmountDataFail: false,
+      };
+    case appActions.GROUND_PET_DISTANCE_AMOUNT_DATA.FAIL:
+      return {
+        ...state,
+        groundPetDistanceAmountDataLoading: false,
+        groundPetDistanceAmountDataSuccess: null,
+        groundPetDistanceAmountDataFail: action,
+      };
 
+    case appActions.GROUND_PET_DISTANCE_AMOUNT_DATA.RESET:
+      return {
+        ...state,
+        groundPetDistanceAmountDataLoading: false,
+        groundPetDistanceAmountDataSuccess: null,
+        groundPetDistanceAmountDataFail: false,
+      };
     case appActions.UPDATE_OFFLINE_LOGIN:
       return {
         ...state,

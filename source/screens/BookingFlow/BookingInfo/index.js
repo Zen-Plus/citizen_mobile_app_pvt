@@ -36,6 +36,8 @@ import {
   resetValidateCoupon,
   MyRequestDetailsReset,
   airAmbulanceMasterData,
+  groundPetleadAmountData,
+  resetgroundPetleadAmountData,
 } from '../../../redux/actions/app.actions';
 import IntercityModal from '../../HomeScreen/ModalComponent/InterCityModal';
 import {
@@ -118,6 +120,11 @@ function BookingInfo(props) {
   const [selectedPickupAirport, setSelectedPickupAirport] = useState();
   const [selectedDropAirport, setSelectedDropAirport] = useState();
   const [startDateOpen, setDateOpen] = useState(false);
+  const [groundPetleadAmountData, setGroundPetleadAmountData] = useState({
+    distance: 0,
+    duration: null,
+    amount: null
+  });
 
   //used only for dev to check locations
   const [locationData, setLocationData] = useState(null);
@@ -430,6 +437,9 @@ function BookingInfo(props) {
       remarks: `Request for ${requestTypeConstantValues[type]}`,
       age: profileData?.age,
       requestType: type,
+      approximateAmount: groundPetleadAmountData?.amount,
+      duration: groundPetleadAmountData?.duration,
+      distance: groundPetleadAmountData?.distance,
     });
   };
 
@@ -448,6 +458,14 @@ function BookingInfo(props) {
     ) {
       props.resetValidateCoupon();
       handleSearchAmbulancePress();
+      //call lead amount api from vts
+      props.groundPetleadAmountData({
+        dropLat: props.formValues.dropLatLong[0],
+        dropLong: props.formValues.dropLatLong[1],
+        pickupLat: props.formValues.pickUpLatLong[0],
+        pickupLong: props.formValues.pickUpLatLong[1],
+      });
+      setLoader(true);
     } else if (
       type === requestTypeConstant.doctorAtHome &&
       props.formValues.pickUpLatLong[0] &&
@@ -462,6 +480,27 @@ function BookingInfo(props) {
     props?.formValues?.vehicleType,
     isPickDropSame,
   ]);
+
+  useEffect(() => {
+    if (props.groundPetDistanceAmountDataSuccess) {
+      const response = props.groundPetDistanceAmountDataSuccess
+      if(response?.data){
+        setGroundPetleadAmountData(response?.data);
+      }
+      setLoader(false);  
+    }
+  }, [props.groundPetDistanceAmountDataSuccess]);
+
+  useEffect(() => {
+    if (props.groundPetDistanceAmountDataFail) {     
+      setGroundPetleadAmountData({
+        distance: 0,
+        duration: null,
+        amount: 1000
+      });
+      setLoader(false);
+    }
+  }, [props.groundPetDistanceAmountDataFail]);
 
   const handleConfirmBookingPress = () => {
     const data = props.projectConfigSuccess?.data || {};
@@ -818,7 +857,7 @@ function BookingInfo(props) {
               onPress={() => {
                 displayField === Fields.PatientDetails
                   ? setDisplayFields(Fields.AmbulanceDetails)
-                  : props.navigation.goBack();
+                  : props.navigation.goBack(); props.resetgroundPetleadAmountData();
               }}
               style={{marginTop: 0}}
             />
@@ -1095,31 +1134,43 @@ function BookingInfo(props) {
                 type !== requestTypeConstant.trainAmbulance ? (
                   <>
                     {
-                      (type !== requestTypeConstant.GroundAmbulance &&
-                        type !== requestTypeConstant.petVeterinaryAmbulance &&
-                        <View
-                          style={{
-                            flexDirection: 'row',
-                            justifyContent: 'space-between',
-                            paddingVertical: 7,
-                            backgroundColor: colors.PaleBlue,
-                            borderRadius: moderateScale(100),
-                            alignItems: 'center',
-                            paddingHorizontal: 16,
-                            marginTop: 10,
-                            marginHorizontal: 20,
-                          }}>
-                          <Text style={styles.totalPriceText}>
-                            {strings.bookingFlow.totalPrice}
-                          </Text>
-                          <Text style={styles.totalPrice}>
-                            {'\u20B9'}{' '}
-                            {[null, undefined].includes(totalPriceWithGST)
-                              ? strings.bookingFlow.na
-                              : parseFloat(totalPriceWithGST).toFixed(2)}
-                          </Text>
-                        </View>
-                      )
+                      <View
+                        style={{
+                          flexDirection: 'row',
+                          justifyContent: 'space-between',
+                          paddingVertical: 7,
+                          backgroundColor: colors.PaleBlue,
+                          borderRadius: moderateScale(100),
+                          alignItems: 'center',
+                          paddingHorizontal: 16,
+                          marginTop: 10,
+                          marginHorizontal: 20,
+                        }}>
+                        <Text style={styles.totalPriceText}>
+                          {
+                            type !== requestTypeConstant.GroundAmbulance &&
+                              type !== requestTypeConstant.petVeterinaryAmbulance
+                              ? strings.bookingFlow.totalPrice
+                              : strings.bookingFlow.approximatePrice
+                            }
+                        </Text>
+                        <Text style={styles.totalPrice}>
+                          {'\u20B9'}{' '}
+                          {
+                            type !== requestTypeConstant.GroundAmbulance &&
+                              type !== requestTypeConstant.petVeterinaryAmbulance
+                              ? [null, undefined].includes(totalPriceWithGST)
+                                ? strings.bookingFlow.na
+                                : parseFloat(totalPriceWithGST).toFixed(2)
+                              :  [null, undefined].includes(groundPetleadAmountData?.amount)
+                                ? strings.bookingFlow.na
+                                : parseFloat(groundPetleadAmountData?.amount).toFixed(2)
+                          }
+                          {
+                            ![null, undefined].includes(groundPetleadAmountData?.amount) && props.groundPetDistanceAmountDataFail && '/KM'
+                          }
+                        </Text>
+                      </View>
                     }
                     <View
                       style={{flexDirection: 'row', justifyContent: 'center'}}>
@@ -1612,6 +1663,9 @@ const mapStateToProps = ({App}) => {
     airAmbulanceMasterDataFail,
     airAmbulanceMasterDataLoading,
     globalConfigurationSuccess,
+    groundPetDistanceAmountDataLoading,
+    groundPetDistanceAmountDataSuccess,
+    groundPetDistanceAmountDataFail,
   } = App;
   return {
     getProfileSuccess,
@@ -1632,6 +1686,9 @@ const mapStateToProps = ({App}) => {
     airAmbulanceMasterDataFail,
     airAmbulanceMasterDataLoading,
     globalConfigurationSuccess,
+    groundPetDistanceAmountDataLoading,
+    groundPetDistanceAmountDataSuccess,
+    groundPetDistanceAmountDataFail,
   };
 };
 
@@ -1647,6 +1704,8 @@ const mapDispatchToProps = {
   resetValidateCoupon,
   MyRequestDetailsReset,
   airAmbulanceMasterData,
+  groundPetleadAmountData,
+  resetgroundPetleadAmountData
 };
 
 export default connect(

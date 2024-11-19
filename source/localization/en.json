@@ -1430,6 +1430,7 @@
     "selectDropLocation": "Select Drop Address",
     "pickAndDropSame": "Pickup and Drop locations cannot be same",
     "totalPrice": "Total Price",
+    "approximatePrice": "Total Price*",
     "confirm": "Confirm",
     "ambulance": "Ambulance",
     "payment": "Payment",
