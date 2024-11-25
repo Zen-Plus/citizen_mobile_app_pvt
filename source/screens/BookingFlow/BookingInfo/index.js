@@ -279,6 +279,10 @@ function BookingInfo(props) {
     }
   }, [props.formValues.pickupAddress, props.formValues.dropAddress]);
 
+  useEffect(() => {
+    props.resetgroundPetleadAmountData();
+  },[]);
+
   const loadMoreAirPortData = () => {
     if (
       airPortListData.pageNo + 1 <
@@ -464,6 +468,7 @@ function BookingInfo(props) {
         dropLong: props.formValues.dropLatLong[1],
         pickupLat: props.formValues.pickUpLatLong[0],
         pickupLong: props.formValues.pickUpLatLong[1],
+        vehicleType: props?.formValues?.vehicleType?.id
       });
       setLoader(true);
     } else if (
@@ -483,6 +488,7 @@ function BookingInfo(props) {
 
   useEffect(() => {
     if (props.groundPetDistanceAmountDataSuccess) {
+      console.log("success log => ",props.groundPetDistanceAmountDataSuccess);  
       const response = props.groundPetDistanceAmountDataSuccess
       if(response?.data){
         setGroundPetleadAmountData(response?.data);
@@ -492,11 +498,12 @@ function BookingInfo(props) {
   }, [props.groundPetDistanceAmountDataSuccess]);
 
   useEffect(() => {
-    if (props.groundPetDistanceAmountDataFail) {     
+    if (props.groundPetDistanceAmountDataFail) {   
+      console.log("error log => ",props.groundPetDistanceAmountDataFail);  
       setGroundPetleadAmountData({
         distance: 0,
         duration: null,
-        amount: 1000
+        amount: null
       });
       setLoader(false);
     }

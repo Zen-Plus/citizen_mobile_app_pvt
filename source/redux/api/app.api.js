@@ -98,7 +98,7 @@ export const airAmbulanceMasterDataApi = data => {
 };
 
 export const groundPetDistanceAmountDataApi = data => {
-  const queryParams = `?dropLat=${data.dropLat}&dropLong=${data.dropLong}&pickupLat=${data.pickupLat}&pickupLong=${data.pickupLong}`;
+  const queryParams = `?dropLat=${data.dropLat}&dropLong=${data.dropLong}&pickupLat=${data.pickupLat}&pickupLong=${data.pickupLong}&vehicleType=${data.vehicleType}`;
   return apiService.vtsGet(`${groundPetDistanceAmountData}${queryParams}`);
 };
 
