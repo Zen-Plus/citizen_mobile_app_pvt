@@ -279,9 +279,6 @@ function BookingInfo(props) {
     }
   }, [props.formValues.pickupAddress, props.formValues.dropAddress]);
 
-  useEffect(() => {
-    props.resetgroundPetleadAmountData();
-  },[]);
 
   const loadMoreAirPortData = () => {
     if (
@@ -291,7 +288,7 @@ function BookingInfo(props) {
       setAirportListData({
         ...airPortListData,
         pageNo: airPortListData.pageNo + 1,
-      });
+      }); 
     }
   };
 
@@ -313,37 +310,42 @@ function BookingInfo(props) {
       };
       setLoader(false);
       //Dont search for ambulance.
-      // searchAmbulanceApi(objectToSend)
-      //   .then(res => {
-      //     const tempData = res.data?.data || {};
-      //     props.setValues('vehicleDetailsApiResponse', tempData);
-      //     if (tempData?.distance?.distance / 1000 > intercityKm) {
-      //       setIntercityModal(true);
-      //     }
-      //     setLocationData(res.data.data);
-      //     setTotalPrice({
-      //       vehiclePrice: tempData?.vehicleTypeData[0].vehiclePrice,
-      //       gst: tempData?.vehicleTypeData[0].gst,
-      //     });
-      //     const tempVehicleData =
-      //       (tempData.vehicleTypeData &&
-      //         tempData.vehicleTypeData.length && {
-      //           ...tempData.vehicleTypeData[0],
-      //           ...tempData.distance,
-      //           areaType: tempData.areaType,
-      //           areaCode: tempData.areaCode,
-      //         }) ||
-      //       {};
-      //     props.setValues('vehicleDetails', tempVehicleData);
-      //     setLoader(false);
-      //   })
-      //   .catch(e => {
-      //     setLoader(false);
-      //     const _code = e?.response?.data?.apierror?.code;
-      //     if (_code === 'ZQTZA0053' || _code === 'ZQTZA0054') {
-      //       handleSOSSubmit();
-      //     }
-      //   });
+      searchAmbulanceApi(objectToSend)
+        .then(res => {
+          const tempData = res.data?.data || {};
+          props.setValues('vehicleDetailsApiResponse', tempData);
+          if (tempData?.distance?.distance / 1000 > intercityKm) {
+            setIntercityModal(true);
+          }
+          setLocationData(res.data.data);
+          setTotalPrice({
+            vehiclePrice: tempData?.vehicleTypeData[0].vehiclePrice,
+            gst: tempData?.vehicleTypeData[0].gst,
+          });
+          const tempVehicleData =
+            (tempData.vehicleTypeData &&
+              tempData.vehicleTypeData.length && {
+                ...tempData.vehicleTypeData[0],
+                ...tempData.distance,
+                areaType: tempData.areaType,
+                areaCode: tempData.areaCode,
+              }) ||
+            {};
+          setGroundPetleadAmountData({
+            distance: tempVehicleData?.distance,
+            duration: tempVehicleData?.duration,
+            amount: tempVehicleData?.vehiclePrice
+          });
+          props.setValues('vehicleDetails', tempVehicleData);
+          setLoader(false);
+        })
+        .catch(e => {
+          setLoader(false);
+          const _code = e?.response?.data?.apierror?.code;
+          if (_code === 'ZQTZA0053' || _code === 'ZQTZA0054') {
+            //handleSOSSubmit();
+          }
+        });
     } else if (
       type === requestTypeConstant.doctorAtHome &&
       props.formValues.pickUpLatLong.length == 2 &&
@@ -462,14 +464,14 @@ function BookingInfo(props) {
     ) {
       props.resetValidateCoupon();
       handleSearchAmbulancePress();
-      //call lead amount api from vts
-      props.groundPetleadAmountData({
-        dropLat: props.formValues.dropLatLong[0],
-        dropLong: props.formValues.dropLatLong[1],
-        pickupLat: props.formValues.pickUpLatLong[0],
-        pickupLong: props.formValues.pickUpLatLong[1],
-        vehicleType: props?.formValues?.vehicleType?.id
-      });
+      // //call lead amount api from vts
+      // props.groundPetleadAmountData({
+      //   dropLat: props.formValues.dropLatLong[0],
+      //   dropLong: props.formValues.dropLatLong[1],
+      //   pickupLat: props.formValues.pickUpLatLong[0],
+      //   pickupLong: props.formValues.pickUpLatLong[1],
+      //   vehicleType: props?.formValues?.vehicleType?.id
+      // });
       setLoader(true);
     } else if (
       type === requestTypeConstant.doctorAtHome &&
@@ -864,7 +866,7 @@ function BookingInfo(props) {
               onPress={() => {
                 displayField === Fields.PatientDetails
                   ? setDisplayFields(Fields.AmbulanceDetails)
-                  : props.navigation.goBack(); props.resetgroundPetleadAmountData();
+                  : props.navigation.goBack();
               }}
               style={{marginTop: 0}}
             />
@@ -1154,28 +1156,13 @@ function BookingInfo(props) {
                           marginHorizontal: 20,
                         }}>
                         <Text style={styles.totalPriceText}>
-                          {
-                            type !== requestTypeConstant.GroundAmbulance &&
-                              type !== requestTypeConstant.petVeterinaryAmbulance
-                              ? strings.bookingFlow.totalPrice
-                              : strings.bookingFlow.approximatePrice
-                            }
+                          {strings.bookingFlow.totalPrice}
                         </Text>
                         <Text style={styles.totalPrice}>
                           {'\u20B9'}{' '}
-                          {
-                            type !== requestTypeConstant.GroundAmbulance &&
-                              type !== requestTypeConstant.petVeterinaryAmbulance
-                              ? [null, undefined].includes(totalPriceWithGST)
-                                ? strings.bookingFlow.na
-                                : parseFloat(totalPriceWithGST).toFixed(2)
-                              :  [null, undefined].includes(groundPetleadAmountData?.amount)
-                                ? strings.bookingFlow.na
-                                : parseFloat(groundPetleadAmountData?.amount).toFixed(2)
-                          }
-                          {
-                            ![null, undefined].includes(groundPetleadAmountData?.amount) && props.groundPetDistanceAmountDataFail && '/KM'
-                          }
+                          {[null, undefined].includes(totalPriceWithGST)
+                            ? strings.bookingFlow.na
+                            : parseFloat(totalPriceWithGST).toFixed(2)}
                         </Text>
                       </View>
                     }
