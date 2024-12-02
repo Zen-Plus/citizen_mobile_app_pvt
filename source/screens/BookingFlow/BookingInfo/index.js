@@ -435,6 +435,8 @@ function BookingInfo(props) {
       callerName: profileData?.firstName,
       latitude: props.formValues.pickUpLatLong[0],
       longitude: props.formValues.pickUpLatLong[1],
+      dropLatitude: props.formValues.dropLatLong[0],
+      dropLongitude: props.formValues.dropLatLong[1],
       citizenId: profileData?.id,
       incidentAddress: props?.formValues?.pickupAddress,
       dropAddress: props?.formValues?.dropAddress,
