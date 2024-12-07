@@ -60,7 +60,7 @@ const ListItem = props => {
                 styles.amountText,
                 isRequestStatusCancelled(item) && {color: colors.Red},
               ]}>
-              {'\u20B9'} {item.totalFare || leadIntegrationDetails?.approximateAmount || "NA"}
+              {'\u20B9'} {item.totalFare || leadIntegrationDetails?.approximateAmount || strings.common.na}
             </Text>
           </View>
         </View>
