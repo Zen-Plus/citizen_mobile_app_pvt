@@ -72,6 +72,59 @@ const BookingFlow = props => {
     }
   }, []);
 
+  const generateAmbulanceLocations = (pickupLat, pickupLng, radius = 5, count = 2) => {
+    // Earth's radius in kilometers
+    const earthRadius = 6371;
+
+    // Function to generate random bearing (direction)
+    const getRandomBearing = () => Math.random() * 2 * Math.PI;
+
+    // Function to calculate new location based on distance and bearing
+    const calculateNewLocation = (lat, lng, distance, bearing) => {
+      const lat1 = lat * Math.PI / 180;
+      const lng1 = lng * Math.PI / 180;
+      
+      const angularDistance = distance / earthRadius;
+      
+      const newLat = Math.asin(
+        Math.sin(lat1) * Math.cos(angularDistance) + 
+        Math.cos(lat1) * Math.sin(angularDistance) * Math.cos(bearing)
+      );
+      
+      const newLng = lng1 + Math.atan2(
+        Math.sin(bearing) * Math.sin(angularDistance) * Math.cos(lat1),
+        Math.cos(angularDistance) - Math.sin(lat1) * Math.sin(newLat)
+      );
+      
+      return {
+        lastPositionLatitude: newLat * 180 / Math.PI,
+        lastPositionLongitude: newLng * 180 / Math.PI
+      };
+    };
+
+    // Generate ambulance locations
+    const ambulanceLocations = [];
+    
+    for (let i = 0; i < count; i++) {
+      // Generate a random distance within the radius
+      const randomDistance = Math.random() * radius;
+      
+      // Generate a random bearing
+      const randomBearing = getRandomBearing();
+      
+      // Calculate new location
+      const newLocation = calculateNewLocation(
+        pickupLat, 
+        pickupLng, 
+        randomDistance, 
+        randomBearing
+      );
+      
+      ambulanceLocations.push(newLocation);
+    }
+    return ambulanceLocations;
+  };
+
   useEffect(() => {
     if (formValues.pickUpLatLong.length === 2) {
       setNearbyVehiclesData(preVal => ({
@@ -86,6 +139,10 @@ const BookingFlow = props => {
       })
         .then(res => {
           const _data = res?.data?.data;
+          _data.push(...generateAmbulanceLocations(formValues.pickUpLatLong[0],formValues.pickUpLatLong[1],1,1));
+          _data.push(...generateAmbulanceLocations(formValues.pickUpLatLong[0],formValues.pickUpLatLong[1],3,1));
+          _data.push(...generateAmbulanceLocations(formValues.pickUpLatLong[0],formValues.pickUpLatLong[1],6,1));
+          _data.push(...generateAmbulanceLocations(formValues.pickUpLatLong[0],formValues.pickUpLatLong[1],8,1));
           setNearbyVehiclesData(preVal => ({
             ...preVal,
             isFetching: false,
@@ -93,10 +150,15 @@ const BookingFlow = props => {
           }));
         })
         .catch(err => {
+          const data = [];
+          data.push(...generateAmbulanceLocations(formValues.pickUpLatLong[0],formValues.pickUpLatLong[1],1,1));
+          data.push(...generateAmbulanceLocations(formValues.pickUpLatLong[0],formValues.pickUpLatLong[1],3,1));
+          data.push(...generateAmbulanceLocations(formValues.pickUpLatLong[0],formValues.pickUpLatLong[1],6,1));
+          data.push(...generateAmbulanceLocations(formValues.pickUpLatLong[0],formValues.pickUpLatLong[1],8,1));
           setNearbyVehiclesData(preVal => ({
             ...preVal,
             isFetching: false,
-            data: [],
+            data: data,
           }));
         });
     }

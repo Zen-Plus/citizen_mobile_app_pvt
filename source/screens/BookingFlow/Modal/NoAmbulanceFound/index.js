@@ -1,16 +1,18 @@
-import React, {useContext} from 'react';
-import {View, Text, StyleSheet, Image, ScrollView} from 'react-native';
-import {colors, scaling, fonts} from '../../../../library';
+import React, { useContext } from 'react';
+import { View, Text, StyleSheet, Image, ScrollView } from 'react-native';
+import { colors, scaling, fonts } from '../../../../library';
 import CustomButton from '../../../../components/CustomButton';
-import {Context} from '../../../../providers/localization';
+import { Context } from '../../../../providers/localization';
 import { ConfirmingBookingImage, requestTypeConstant } from '../../../../utils/constants';
 import Feather from 'react-native-vector-icons/Feather';
+import { openContact } from '../../../../components/functions';
 
-const {normalize, widthScale, heightScale} = scaling;
+const { normalize, widthScale, heightScale, moderateScale } = scaling;
 
 const RequestCreated = props => {
   const { onPress, bookingCategory, data } = props;
   const strings = useContext(Context).getStrings();
+  const { common } = strings;
   return (
     <View style={styles.modal}>
       <ScrollView style={styles.primaryContainer}>
@@ -40,6 +42,17 @@ const RequestCreated = props => {
             resizeMode="contain"
           />
           <View style={styles.buttonTopContainer}>
+            {
+              data.isRequestAlreadyCreated &&
+              <CustomButton
+                onPress={() => { openContact(common.tollFreeNumber) }}
+                title={"Call  "+common.tollFreeNumber}
+                titleTextStyles={{ fontSize: normalize(16) }}
+                containerStyles={{ flex: 0, backgroundColor: colors.lightRed2, marginBottom: 10 }}
+                leftIconContainerStyles={{ flex: 0 }}
+                rightIconContainerStyles={{ flex: 0 }}
+              />
+            }
             <CustomButton
               onPress={onPress}
               title={strings.requestCreated.goBackToHomePage}
@@ -56,7 +69,7 @@ const RequestCreated = props => {
 };
 
 const styles = StyleSheet.create({
-  modal: {
+    modal: {
     alignItems: 'center',
     justifyContent: 'center',
   },

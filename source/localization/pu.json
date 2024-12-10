@@ -39,7 +39,8 @@
     "makePaymentCCAvenue": "Make Payment (CCAvenue)",
     "DownloadFail": "Download Failed",
     "enter": "Enter",
-    "na": "NA"
+    "na": "NA",
+    "tollFreeNumber": "18001021298"
   },
   "menuItems": {
     "myProfile": "My Profile",
