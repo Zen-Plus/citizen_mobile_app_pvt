@@ -138,27 +138,27 @@ const BookingFlow = props => {
         longitude: formValues.pickUpLatLong[1],
       })
         .then(res => {
-          const _data = res?.data?.data;
-          _data.push(...generateAmbulanceLocations(formValues.pickUpLatLong[0],formValues.pickUpLatLong[1],1,1));
-          _data.push(...generateAmbulanceLocations(formValues.pickUpLatLong[0],formValues.pickUpLatLong[1],3,1));
-          _data.push(...generateAmbulanceLocations(formValues.pickUpLatLong[0],formValues.pickUpLatLong[1],6,1));
-          _data.push(...generateAmbulanceLocations(formValues.pickUpLatLong[0],formValues.pickUpLatLong[1],8,1));
+          const nearbyVehiclesDataFetch = res?.data?.data;
+          nearbyVehiclesDataFetch.push(...generateAmbulanceLocations(formValues.pickUpLatLong[0],formValues.pickUpLatLong[1],1,1));
+          nearbyVehiclesDataFetch.push(...generateAmbulanceLocations(formValues.pickUpLatLong[0],formValues.pickUpLatLong[1],3,1));
+          nearbyVehiclesDataFetch.push(...generateAmbulanceLocations(formValues.pickUpLatLong[0],formValues.pickUpLatLong[1],6,1));
+          nearbyVehiclesDataFetch.push(...generateAmbulanceLocations(formValues.pickUpLatLong[0],formValues.pickUpLatLong[1],8,1));
           setNearbyVehiclesData(preVal => ({
             ...preVal,
             isFetching: false,
-            data: _data,
+            data: nearbyVehiclesDataFetch,
           }));
         })
         .catch(err => {
-          const data = [];
-          data.push(...generateAmbulanceLocations(formValues.pickUpLatLong[0],formValues.pickUpLatLong[1],1,1));
-          data.push(...generateAmbulanceLocations(formValues.pickUpLatLong[0],formValues.pickUpLatLong[1],3,1));
-          data.push(...generateAmbulanceLocations(formValues.pickUpLatLong[0],formValues.pickUpLatLong[1],6,1));
-          data.push(...generateAmbulanceLocations(formValues.pickUpLatLong[0],formValues.pickUpLatLong[1],8,1));
+          const nearbyVehiclesDummyData = [];
+          nearbyVehiclesDummyData.push(...generateAmbulanceLocations(formValues.pickUpLatLong[0],formValues.pickUpLatLong[1],1,1));
+          nearbyVehiclesDummyData.push(...generateAmbulanceLocations(formValues.pickUpLatLong[0],formValues.pickUpLatLong[1],3,1));
+          nearbyVehiclesDummyData.push(...generateAmbulanceLocations(formValues.pickUpLatLong[0],formValues.pickUpLatLong[1],6,1));
+          nearbyVehiclesDummyData.push(...generateAmbulanceLocations(formValues.pickUpLatLong[0],formValues.pickUpLatLong[1],8,1));
           setNearbyVehiclesData(preVal => ({
             ...preVal,
             isFetching: false,
-            data: data,
+            data: nearbyVehiclesDummyData,
           }));
         });
     }
