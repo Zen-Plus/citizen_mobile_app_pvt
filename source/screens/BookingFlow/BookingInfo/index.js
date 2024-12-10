@@ -1410,6 +1410,7 @@ function BookingInfo(props) {
                       }}
                       data={noAmbulanceFound.data}
                       bookingCategory={type}
+                      navigation={props.navigation}
                     />
                   )}
 

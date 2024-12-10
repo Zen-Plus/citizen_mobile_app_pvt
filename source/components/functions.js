@@ -16,13 +16,9 @@ import {icAirAmbulanca, icDoctor, icTrain} from '../../assets';
 var CryptoJs = require('crypto-js');
 
 export const openContact = tel => {
-  let number = '';
-  if (Platform.OS === 'ios') {
-    number = `telprompt:${tel}`;
-  } else {
-    number = `tel:${tel}`;
+  if (tel) {
+    Linking.openURL(`tel:${tel}`);
   }
-  Linking.openURL(number);
 };
 
 export const capitalizeFirstLetter = string => {

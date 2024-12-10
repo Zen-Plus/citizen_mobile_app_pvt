@@ -6,11 +6,12 @@ import { Context } from '../../../../providers/localization';
 import { ConfirmingBookingImage, requestTypeConstant } from '../../../../utils/constants';
 import Feather from 'react-native-vector-icons/Feather';
 import { openContact } from '../../../../components/functions';
+import { navigations } from '../../../../constants';
 
 const { normalize, widthScale, heightScale, moderateScale } = scaling;
 
 const RequestCreated = props => {
-  const { onPress, bookingCategory, data } = props;
+  const { onPress, bookingCategory, data, navigation } = props;
   const strings = useContext(Context).getStrings();
   const { common } = strings;
   return (
@@ -45,7 +46,13 @@ const RequestCreated = props => {
             {
               data.isRequestAlreadyCreated &&
               <CustomButton
-                onPress={() => { openContact(common.tollFreeNumber) }}
+                onPress={() => { 
+                  openContact(common.tollFreeNumber); 
+                  navigation.reset({
+                    index: 0,
+                    routes: [{name: navigations.HomeScreen}],
+                  });
+                }}
                 title={"Call  "+common.tollFreeNumber}
                 titleTextStyles={{ fontSize: normalize(16) }}
                 containerStyles={{ flex: 0, backgroundColor: colors.lightRed2, marginBottom: 10 }}
