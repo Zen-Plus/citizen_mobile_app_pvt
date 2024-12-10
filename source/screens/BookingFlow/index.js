@@ -138,15 +138,15 @@ const BookingFlow = props => {
         longitude: formValues.pickUpLatLong[1],
       })
         .then(res => {
-          const nearbyVehiclesDataFetch = res?.data?.data;
-          nearbyVehiclesDataFetch.push(...generateAmbulanceLocations(formValues.pickUpLatLong[0],formValues.pickUpLatLong[1],1,1));
-          nearbyVehiclesDataFetch.push(...generateAmbulanceLocations(formValues.pickUpLatLong[0],formValues.pickUpLatLong[1],3,1));
-          nearbyVehiclesDataFetch.push(...generateAmbulanceLocations(formValues.pickUpLatLong[0],formValues.pickUpLatLong[1],6,1));
-          nearbyVehiclesDataFetch.push(...generateAmbulanceLocations(formValues.pickUpLatLong[0],formValues.pickUpLatLong[1],8,1));
+          const _data = res?.data?.data;
+          _data.push(...generateAmbulanceLocations(formValues.pickUpLatLong[0],formValues.pickUpLatLong[1],1,1));
+          _data.push(...generateAmbulanceLocations(formValues.pickUpLatLong[0],formValues.pickUpLatLong[1],3,1));
+          _data.push(...generateAmbulanceLocations(formValues.pickUpLatLong[0],formValues.pickUpLatLong[1],6,1));
+          _data.push(...generateAmbulanceLocations(formValues.pickUpLatLong[0],formValues.pickUpLatLong[1],8,1));
           setNearbyVehiclesData(preVal => ({
             ...preVal,
             isFetching: false,
-            data: nearbyVehiclesDataFetch,
+            data: _data,
           }));
         })
         .catch(err => {
