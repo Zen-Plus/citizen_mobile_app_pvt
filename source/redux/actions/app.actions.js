@@ -57,6 +57,16 @@ export const airAmbulanceMasterData = data => ({
   promise: () => appApi.airAmbulanceMasterDataApi(data),
 });
 
+export const groundPetleadAmountData = data => ({
+  type: commonActions.COMMON_API_CALL,
+  subtypes: appActions.GROUND_PET_DISTANCE_AMOUNT_DATA,
+  promise: () => appApi.groundPetDistanceAmountDataApi(data),
+});
+
+export const resetgroundPetleadAmountData = () => ({
+  type: appActions.GROUND_PET_DISTANCE_AMOUNT_DATA.RESET,
+});
+
 export const resetNearByCategory = () => ({
   type: appActions.NEARBY_CATEGORY.RESET,
 });

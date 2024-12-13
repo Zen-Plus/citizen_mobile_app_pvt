@@ -1,6 +1,8 @@
 package in.zemes.customer;
 
 import android.app.Application;
+import android.content.Context;
+import android.content.Intent;
 
 
 import com.facebook.react.PackageList;
@@ -10,7 +12,10 @@ import com.facebook.react.ReactPackage;
 import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint;
 import com.facebook.react.defaults.DefaultReactNativeHost;
 import com.facebook.soloader.SoLoader;
-
+import android.content.BroadcastReceiver;
+import android.content.IntentFilter;
+import android.os.Build;
+import javax.annotation.Nullable;
 import java.util.List;
 
 
@@ -64,4 +69,13 @@ public class MainApplication extends Application implements ReactApplication {
     }
     ReactNativeFlipper.initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
   }
+
+    @Override
+    public Intent registerReceiver(@Nullable BroadcastReceiver receiver, IntentFilter filter) {
+        if (Build.VERSION.SDK_INT >= 34 && getApplicationInfo().targetSdkVersion >= 34) {
+            return super.registerReceiver(receiver, filter, Context.RECEIVER_EXPORTED);
+        } else {
+            return super.registerReceiver(receiver, filter);
+        }
+    }
 }

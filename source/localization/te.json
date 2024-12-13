@@ -35,7 +35,8 @@
     "makePaymentRazorpay": "Make Payment (Razorpay)",
     "makePaymentCCAvenue": "Make Payment (CCAvenue)",
     "termsAndConditions": "Terms And Conditions",
-    "enter":"Enter"
+    "enter":"Enter",
+    "tollFreeNumber": "18001021298"
   },
   "menuItems": {
     "myProfile": "నా ప్రొఫైల్",
@@ -949,7 +950,9 @@
       "fromPlaceholder": "Select Pickup Address",
       "vehicleType": "Ambulance",
       "pleaseWait": "Please wait while we find the nearest Ambulance for you.",
-      "bookingAmbulanceFor": "Book Ambulance for"
+      "bookingAmbulanceFor": "Book Ambulance for",
+      "leadGeneratedMessage": "మేము మీ అభ్యర్థనను స్వీకరించాము",
+      "leadAlreadyGeneratedMessage": "మీకు ఇప్పటికే ఒక చురుకైన అభ్యర్థన ఉంది"
     },
     "PET_VETERINARY_AMBULANCE": {
       "heading": "Book Ambulance",
@@ -968,7 +971,9 @@
       "bookingAmbulanceFor": "Travelling Details",
       "category": "Category",
       "breed": "Breed",
-      "gender": "Gender"
+      "gender": "Gender",
+      "leadGeneratedMessage": "మేము మీ అభ్యర్థనను స్వీకరించాము",
+      "leadAlreadyGeneratedMessage": "మీకు ఇప్పటికే ఒక చురుకైన అభ్యర్థన ఉంది"
     },
     "AIR_AMBULANCE": {
       "bookAmbulance": "Book Ambulance",
@@ -1099,6 +1104,7 @@
       "AmbulanceDetails": "Ambulance Details",
       "driver": "Driver",
       "requestCancelled": "Request Cancelled",
+      "requestClosed": "Request Closed",
       "negotiationInitiated": "Negotiation Initiated",
       "booked": "Booked",
       "requestSubmitted": "Request Submitted",
@@ -1390,6 +1396,7 @@
     "selectDropLocation": "Select Drop Address",
     "pickAndDropSame": "Pickup and Drop locations cannot be same",
     "totalPrice": "Total Price",
+    "approximatePrice": "సమాన్యంగా ధర*",
     "confirm": "Confirm",
     "ambulance": "Ambulance",
     "payment": "Payment",
@@ -1426,7 +1433,8 @@
   },
   "requestCreated": {
     "yourRequestHaveBeenReceived": "Your request have been received",
-    "ourTeamWillReachOutToYouSoon": "Our team will reach out to you soon",
+    "ourTeamWillReachOutToYouSoon": "మా టీమ్ త్వరలో మిమ్మల్ని సంప్రదిస్తుంది",
+    "ourTeamWillRespond": "దయచేసి మా టీమ్ స్పందన కోసం వేచి ఉండండి",
     "goBackToHomePage": "Go Back to Home Page"
   },
   "feedbackScreen":{

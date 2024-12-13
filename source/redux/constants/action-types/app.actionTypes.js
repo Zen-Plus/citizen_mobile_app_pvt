@@ -129,6 +129,13 @@ export default {
     RESET: 'app.air_ambulance_master_data:reset',
   },
 
+  GROUND_PET_DISTANCE_AMOUNT_DATA: {
+    START: 'app.ground_pet_distance_amount_data:start',
+    SUCCESS: 'app.ground_pet_distance_amount_data:success',
+    FAIL: 'app.ground_pet_distance_amount_data:fail',
+    RESET: 'app.ground_pet_distance_amount_data:reset',
+  },
+
   NEARBY_HOSPITAL: {
     START: 'app.nearby_hospital:start',
     SUCCESS: 'app.nearby_hospital:success',

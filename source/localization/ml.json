@@ -35,7 +35,8 @@
     "makePaymentRazorpay": "Make Payment (Razorpay)",
     "makePaymentCCAvenue": "Make Payment (CCAvenue)",
     "termsAndConditions": "Terms And Conditions",
-    "enter":"Enter"
+    "enter":"Enter",
+    "tollFreeNumber": "18001021298"
   },
   "menuItems": {
     "myProfile": "എന്റെ പ്രൊഫൈൽ",
@@ -952,7 +953,9 @@
       "fromPlaceholder": "Select Pickup Address",
       "vehicleType": "Ambulance",
       "pleaseWait": "Please wait while we find the nearest Ambulance for you.",
-      "bookingAmbulanceFor": "Book Ambulance for"
+      "bookingAmbulanceFor": "Book Ambulance for",
+      "leadGeneratedMessage": "ഞങ്ങൾ നിങ്ങളുടെ അഭ്യർത്ഥന ലഭിച്ചിട്ടുണ്ട്",
+      "leadAlreadyGeneratedMessage": "നിങ്ങൾക്കു് ഇതിനകം ഒരു സജീവമായ അഭ്യർത്ഥനയുണ്ട്"
     },
     "PET_VETERINARY_AMBULANCE": {
       "heading": "Book Ambulance",
@@ -971,7 +974,9 @@
       "bookingAmbulanceFor": "Travelling Details",
       "category": "Category",
       "breed": "Breed",
-      "gender": "Gender"
+      "gender": "Gender",
+      "leadGeneratedMessage": "ഞങ്ങൾ നിങ്ങളുടെ അഭ്യർത്ഥന ലഭിച്ചിട്ടുണ്ട്",
+      "leadAlreadyGeneratedMessage": "നിങ്ങൾക്കു് ഇതിനകം ഒരു സജീവമായ അഭ്യർത്ഥനയുണ്ട്"
     },
     "AIR_AMBULANCE": {
       "bookAmbulance": "Book Ambulance",
@@ -1102,6 +1107,7 @@
       "AmbulanceDetails": "Ambulance Details",
       "driver": "Driver",
       "requestCancelled": "Request Cancelled",
+      "requestClosed": "Request Closed",
       "negotiationInitiated": "Negotiation Initiated",
       "booked": "Booked",
       "requestSubmitted": "Request Submitted",
@@ -1393,6 +1399,7 @@
     "selectDropLocation": "Select Drop Address",
     "pickAndDropSame": "Pickup and Drop locations cannot be same",
     "totalPrice": "Total Price",
+    "approximatePrice": "ആകെ വില*",
     "confirm": "Confirm",
     "ambulance": "Ambulance",
     "payment": "Payment",
@@ -1429,7 +1436,8 @@
   },
   "requestCreated": {
     "yourRequestHaveBeenReceived": "Your request have been received",
-    "ourTeamWillReachOutToYouSoon": "Our team will reach out to you soon",
+    "ourTeamWillReachOutToYouSoon": "ഞങ്ങളുടെ സംഘം ഉടൻ നിങ്ങളെ സമീപിക്കും",
+    "ourTeamWillRespond": "ദയവായി ഞങ്ങളുടെ സംഘത്തിന്റെ പ്രതികരണത്തിനായി കാത്തിരിക്കുക",
     "goBackToHomePage": "Go Back to Home Page"
   },
   "feedbackScreen":{

@@ -69,6 +69,12 @@ export const serviceRequestStatus = {
   CANCEL: 'CANCEL',
 };
 
+export const leadRequestStatus = {
+  OPEN: 'OPEN',
+  CLOSE: 'CLOSED',
+  CANCEL: 'CANCEL',
+};
+
 export const notificationEntityName = {
   VENDOR: 'VENDOR',
   VEHICLE: 'VEHICLE',

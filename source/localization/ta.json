@@ -35,7 +35,8 @@
     "makePaymentRazorpay": "Make Payment (Razorpay)",
     "makePaymentCCAvenue": "Make Payment (CCAvenue)",
     "termsAndConditions": "Terms And Conditions",
-    "enter":"Enter"
+    "enter":"Enter",
+    "tollFreeNumber": "18001021298"
   },
   "menuItems": {
     "myProfile": "எனது சுயவிவரம்",
@@ -950,7 +951,9 @@
       "fromPlaceholder": "Select Pickup Address",
       "vehicleType": "Ambulance",
       "pleaseWait": "Please wait while we find the nearest Ambulance for you.",
-      "bookingAmbulanceFor": "Book Ambulance for"
+      "bookingAmbulanceFor": "Book Ambulance for",
+      "leadGeneratedMessage": "நாங்கள் உங்கள் கோரிக்கையை பெற்றுள்ளோம்",
+      "leadAlreadyGeneratedMessage": "நீங்கள் ஏற்கனவே ஒரு செயலில் உள்ள கோரிக்கையை வைத்துள்ளீர்கள்"
     },
     "PET_VETERINARY_AMBULANCE": {
       "heading": "Book Ambulance",
@@ -969,7 +972,9 @@
       "bookingAmbulanceFor": "Travelling Details",
       "category": "Category",
       "breed": "Breed",
-      "gender": "Gender"
+      "gender": "Gender",
+      "leadGeneratedMessage": "நாங்கள் உங்கள் கோரிக்கையை பெற்றுள்ளோம்",
+      "leadAlreadyGeneratedMessage": "நீங்கள் ஏற்கனவே ஒரு செயலில் உள்ள கோரிக்கையை வைத்துள்ளீர்கள்"
     },
     "AIR_AMBULANCE": {
       "bookAmbulance": "Book Ambulance",
@@ -1102,6 +1107,7 @@
       "AmbulanceDetails": "Ambulance Details",
       "driver": "Driver",
       "requestCancelled": "Request Cancelled",
+      "requestClosed": "Request Closed",
       "negotiationInitiated": "Negotiation Initiated",
       "booked": "Booked",
       "requestSubmitted": "Request Submitted",
@@ -1394,6 +1400,7 @@
     "selectDropLocation": "Select Drop Address",
     "pickAndDropSame": "Pickup and Drop locations cannot be same",
     "totalPrice": "Total Price",
+    "approximatePrice": "மொத்த விலை*",
     "confirm": "Confirm",
     "ambulance": "Ambulance",
     "payment": "Payment",
@@ -1430,7 +1437,8 @@
   },
   "requestCreated": {
     "yourRequestHaveBeenReceived": "Your request have been received",
-    "ourTeamWillReachOutToYouSoon": "Our team will reach out to you soon",
+    "ourTeamWillReachOutToYouSoon": "எங்கள் குழு விரைவில் உங்களை தொடர்புகொள்ளும்",
+    "ourTeamWillRespond": "தயவுசெய்து எங்கள் குழுவின் பதிலை காத்திருக்கவும்",
     "goBackToHomePage": "Go Back to Home Page"
   },
   "feedbackScreen":{
