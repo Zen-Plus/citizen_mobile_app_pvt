@@ -1,27 +1,40 @@
-import React, {useContext} from 'react';
-import {View, Text, StyleSheet, Image, ScrollView} from 'react-native';
-import {colors, scaling, fonts} from '../../../../library';
+import React, { useContext } from 'react';
+import { View, Text, StyleSheet, Image, ScrollView } from 'react-native';
+import { colors, scaling, fonts } from '../../../../library';
 import CustomButton from '../../../../components/CustomButton';
-import {Context} from '../../../../providers/localization';
-import {ConfirmingBookingImage} from '../../../../utils/constants';
+import { Context } from '../../../../providers/localization';
+import { ConfirmingBookingImage, requestTypeConstant } from '../../../../utils/constants';
 import Feather from 'react-native-vector-icons/Feather';
+import { openContact } from '../../../../components/functions';
+import { navigations } from '../../../../constants';
 
-const {normalize, widthScale, heightScale} = scaling;
+const { normalize, widthScale, heightScale, moderateScale } = scaling;
 
 const RequestCreated = props => {
-  const {onPress, bookingCategory} = props;
+  const { onPress, bookingCategory, data, navigation } = props;
   const strings = useContext(Context).getStrings();
+  const { common } = strings;
   return (
     <View style={styles.modal}>
       <ScrollView style={styles.primaryContainer}>
         <View style={styles.innerContainer}>
           <View style={styles.titleView}>
-            <Feather name="alert-octagon" size={28} color={colors.Red} />
+            {
+              bookingCategory === requestTypeConstant.GroundAmbulance || bookingCategory === requestTypeConstant.petVeterinaryAmbulance ?
+                <Feather name="check-circle" size={28} color={colors.Green2} style={styles.iconStyling} /> :
+                <Feather name="alert-octagon" size={28} color={colors.Red} style={styles.iconStyling} />
+            }
             <Text style={styles.headingStyle}>
-              {strings.groundAmbulance[bookingCategory]?.noDataFound}
+              {
+                bookingCategory === requestTypeConstant.GroundAmbulance || bookingCategory === requestTypeConstant.petVeterinaryAmbulance ?
+                  (data.isRequestAlreadyCreated ?
+                    strings.groundAmbulance[bookingCategory]?.leadAlreadyGeneratedMessage :
+                    strings.groundAmbulance[bookingCategory]?.leadGeneratedMessage) :
+                  strings.groundAmbulance[bookingCategory]?.noDataFound
+              }
             </Text>
             <Text style={styles.subHeadingStyle}>
-              {strings.requestCreated.ourTeamWillReachOutToYouSoon}
+              {data.isRequestAlreadyCreated ? strings.requestCreated.ourTeamWillRespond : strings.requestCreated.ourTeamWillReachOutToYouSoon}
             </Text>
           </View>
           <Image
@@ -30,6 +43,23 @@ const RequestCreated = props => {
             resizeMode="contain"
           />
           <View style={styles.buttonTopContainer}>
+            {
+              data.isRequestAlreadyCreated &&
+              <CustomButton
+                onPress={() => { 
+                  openContact(common.tollFreeNumber); 
+                  navigation.reset({
+                    index: 0,
+                    routes: [{name: navigations.HomeScreen}],
+                  });
+                }}
+                title={"Call  "+common.tollFreeNumber}
+                titleTextStyles={{ fontSize: normalize(16) }}
+                containerStyles={{ flex: 0, backgroundColor: colors.lightRed2, marginBottom: 10 }}
+                leftIconContainerStyles={{ flex: 0 }}
+                rightIconContainerStyles={{ flex: 0 }}
+              />
+            }
             <CustomButton
               onPress={onPress}
               title={strings.requestCreated.goBackToHomePage}
@@ -46,7 +76,7 @@ const RequestCreated = props => {
 };
 
 const styles = StyleSheet.create({
-  modal: {
+    modal: {
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -89,6 +119,9 @@ const styles = StyleSheet.create({
   titleView: {
     alignItems: 'center',
   },
+  iconStyling: {
+    marginBottom: 5
+  }
 });
 
 export default RequestCreated;

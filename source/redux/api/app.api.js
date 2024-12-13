@@ -63,6 +63,7 @@ import {
   job,
   feedback,
   namedCallersDetails,
+  groundPetDistanceAmountData
 } from '../constants/endpoint-constants';
 import apiService from './axios-service';
 import axios from 'axios';
@@ -94,6 +95,11 @@ export const nearbyCategoryApi = data => {
 export const airAmbulanceMasterDataApi = data => {
   const queryParams = `?masterDataType=${data.masterDataType}&pageNo=${data.pageNo}&pageSize=${data.pageSize}&searchText=${data.searchText}`;
   return apiService.get(`${hospitalMasterData}${commonMaster}${queryParams}`);
+};
+
+export const groundPetDistanceAmountDataApi = data => {
+  const queryParams = `?dropLat=${data.dropLat}&dropLong=${data.dropLong}&pickupLat=${data.pickupLat}&pickupLong=${data.pickupLong}&vehicleType=${data.vehicleType}`;
+  return apiService.vtsGet(`${groundPetDistanceAmountData}${queryParams}`);
 };
 
 /**

@@ -36,6 +36,8 @@ import {
   resetValidateCoupon,
   MyRequestDetailsReset,
   airAmbulanceMasterData,
+  groundPetleadAmountData,
+  resetgroundPetleadAmountData,
 } from '../../../redux/actions/app.actions';
 import IntercityModal from '../../HomeScreen/ModalComponent/InterCityModal';
 import {
@@ -118,6 +120,11 @@ function BookingInfo(props) {
   const [selectedPickupAirport, setSelectedPickupAirport] = useState();
   const [selectedDropAirport, setSelectedDropAirport] = useState();
   const [startDateOpen, setDateOpen] = useState(false);
+  const [groundPetleadAmountData, setGroundPetleadAmountData] = useState({
+    distance: 0,
+    duration: null,
+    amount: null
+  });
 
   //used only for dev to check locations
   const [locationData, setLocationData] = useState(null);
@@ -272,6 +279,7 @@ function BookingInfo(props) {
     }
   }, [props.formValues.pickupAddress, props.formValues.dropAddress]);
 
+
   const loadMoreAirPortData = () => {
     if (
       airPortListData.pageNo + 1 <
@@ -280,7 +288,7 @@ function BookingInfo(props) {
       setAirportListData({
         ...airPortListData,
         pageNo: airPortListData.pageNo + 1,
-      });
+      }); 
     }
   };
 
@@ -300,7 +308,8 @@ function BookingInfo(props) {
         bookingCategory: type,
         vehicleType: props.formValues?.vehicleType?.id,
       };
-      setLoader(true);
+      setLoader(false);
+      //Dont search for ambulance.
       searchAmbulanceApi(objectToSend)
         .then(res => {
           const tempData = res.data?.data || {};
@@ -322,6 +331,11 @@ function BookingInfo(props) {
                 areaCode: tempData.areaCode,
               }) ||
             {};
+          setGroundPetleadAmountData({
+            distance: tempVehicleData?.distance,
+            duration: tempVehicleData?.duration,
+            amount: tempVehicleData?.vehiclePrice
+          });
           props.setValues('vehicleDetails', tempVehicleData);
           setLoader(false);
         })
@@ -329,7 +343,7 @@ function BookingInfo(props) {
           setLoader(false);
           const _code = e?.response?.data?.apierror?.code;
           if (_code === 'ZQTZA0053' || _code === 'ZQTZA0054') {
-            handleSOSSubmit();
+            //handleSOSSubmit();
           }
         });
     } else if (
@@ -358,11 +372,11 @@ function BookingInfo(props) {
           const tempVehicleData =
             (tempData.vehicleTypeData &&
               tempData.vehicleTypeData.length && {
-                ...tempData.vehicleTypeData[0],
-                ...tempData.distance,
-                areaType: tempData.areaType,
-                areaCode: tempData.areaCode,
-              }) ||
+              ...tempData.vehicleTypeData[0],
+              ...tempData.distance,
+              areaType: tempData.areaType,
+              areaCode: tempData.areaCode,
+            }) ||
             {};
           props.setValues('vehicleDetails', tempVehicleData);
           setLoader(false);
@@ -387,7 +401,7 @@ function BookingInfo(props) {
       setNoAmbulanceFound({
         isVisible: true,
         data: {
-          isRequestAlreadyCreated: true,
+          isRequestAlreadyCreated: false,
         },
       });
     }
@@ -421,12 +435,19 @@ function BookingInfo(props) {
       callerName: profileData?.firstName,
       latitude: props.formValues.pickUpLatLong[0],
       longitude: props.formValues.pickUpLatLong[1],
+      dropLatitude: props.formValues.dropLatLong[0],
+      dropLongitude: props.formValues.dropLatLong[1],
       citizenId: profileData?.id,
-      incidentAddress: props.formValues.pickupAddress,
+      incidentAddress: props?.formValues?.pickupAddress,
+      dropAddress: props?.formValues?.dropAddress,
+      vehicleType: props?.formValues?.vehicleType, 
       for: 'Self',
       remarks: `Request for ${requestTypeConstantValues[type]}`,
       age: profileData?.age,
       requestType: type,
+      approximateAmount: groundPetleadAmountData?.amount,
+      duration: groundPetleadAmountData?.duration,
+      distance: groundPetleadAmountData?.distance,
     });
   };
 
@@ -445,6 +466,15 @@ function BookingInfo(props) {
     ) {
       props.resetValidateCoupon();
       handleSearchAmbulancePress();
+      // //call lead amount api from vts
+      // props.groundPetleadAmountData({
+      //   dropLat: props.formValues.dropLatLong[0],
+      //   dropLong: props.formValues.dropLatLong[1],
+      //   pickupLat: props.formValues.pickUpLatLong[0],
+      //   pickupLong: props.formValues.pickUpLatLong[1],
+      //   vehicleType: props?.formValues?.vehicleType?.id
+      // });
+      setLoader(true);
     } else if (
       type === requestTypeConstant.doctorAtHome &&
       props.formValues.pickUpLatLong[0] &&
@@ -459,6 +489,29 @@ function BookingInfo(props) {
     props?.formValues?.vehicleType,
     isPickDropSame,
   ]);
+
+  useEffect(() => {
+    if (props.groundPetDistanceAmountDataSuccess) {
+      console.log("success log => ",props.groundPetDistanceAmountDataSuccess);  
+      const response = props.groundPetDistanceAmountDataSuccess
+      if(response?.data){
+        setGroundPetleadAmountData(response?.data);
+      }
+      setLoader(false);  
+    }
+  }, [props.groundPetDistanceAmountDataSuccess]);
+
+  useEffect(() => {
+    if (props.groundPetDistanceAmountDataFail) {   
+      console.log("error log => ",props.groundPetDistanceAmountDataFail);  
+      setGroundPetleadAmountData({
+        distance: 0,
+        duration: null,
+        amount: null
+      });
+      setLoader(false);
+    }
+  }, [props.groundPetDistanceAmountDataFail]);
 
   const handleConfirmBookingPress = () => {
     const data = props.projectConfigSuccess?.data || {};
@@ -861,6 +914,10 @@ function BookingInfo(props) {
     ) {
       setDateTimeError(false);
       handleConfirmBookingPress();
+    } else if (type === requestTypeConstant.GroundAmbulance ||
+      type === requestTypeConstant.petVeterinaryAmbulance) {
+      //Directly generate lead
+      handleSOSSubmit();
     } else {
       if (displayField === Fields.PatientDetails) {
         handleConfirmBookingPress();
@@ -872,7 +929,7 @@ function BookingInfo(props) {
 
   const tat =
     type === requestTypeConstant.airAmbulance ||
-    type === requestTypeConstant.trainAmbulance
+      type === requestTypeConstant.trainAmbulance
       ? airAmbulanceTat
       : ambulanceTat;
 
@@ -917,7 +974,7 @@ function BookingInfo(props) {
                     marginHorizontal: widthScale(20),
                   }}>
                   {type !== requestTypeConstant.airAmbulance &&
-                  type !== requestTypeConstant.trainAmbulance ? (
+                    type !== requestTypeConstant.trainAmbulance ? (
                     <View style={{flexDirection: 'row', alignItems: 'center'}}>
                       {type !== requestTypeConstant.doctorAtHome ? (
                         <DottedVertical />
@@ -961,7 +1018,7 @@ function BookingInfo(props) {
                         )}
                       </View>
                       {type !== requestTypeConstant.airAmbulance &&
-                      type !== requestTypeConstant.trainAmbulance ? (
+                        type !== requestTypeConstant.trainAmbulance ? (
                         <View
                           style={{
                             position: 'absolute',
@@ -1087,28 +1144,30 @@ function BookingInfo(props) {
                 {type !== requestTypeConstant.airAmbulance &&
                 type !== requestTypeConstant.trainAmbulance ? (
                   <>
-                    <View
-                      style={{
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                        paddingVertical: 7,
-                        backgroundColor: colors.PaleBlue,
-                        borderRadius: moderateScale(100),
-                        alignItems: 'center',
-                        paddingHorizontal: 16,
-                        marginTop: 10,
-                        marginHorizontal: 20,
-                      }}>
-                      <Text style={styles.totalPriceText}>
-                        {strings.bookingFlow.totalPrice}
-                      </Text>
-                      <Text style={styles.totalPrice}>
-                        {'\u20B9'}{' '}
-                        {[null, undefined].includes(totalPriceWithGST)
-                          ? strings.bookingFlow.na
-                          : parseFloat(totalPriceWithGST).toFixed(2)}
-                      </Text>
-                    </View>
+                    {
+                      <View
+                        style={{
+                          flexDirection: 'row',
+                          justifyContent: 'space-between',
+                          paddingVertical: 7,
+                          backgroundColor: colors.PaleBlue,
+                          borderRadius: moderateScale(100),
+                          alignItems: 'center',
+                          paddingHorizontal: 16,
+                          marginTop: 10,
+                          marginHorizontal: 20,
+                        }}>
+                        <Text style={styles.totalPriceText}>
+                          {strings.bookingFlow.totalPrice}
+                        </Text>
+                        <Text style={styles.totalPrice}>
+                          {'\u20B9'}{' '}
+                          {[null, undefined].includes(totalPriceWithGST)
+                            ? strings.bookingFlow.na
+                            : parseFloat(totalPriceWithGST).toFixed(2)}
+                        </Text>
+                      </View>
+                    }
                     <View
                       style={{flexDirection: 'row', justifyContent: 'center'}}>
                       {displayField === Fields.PatientDetails ? (
@@ -1133,11 +1192,14 @@ function BookingInfo(props) {
                           </KeyboardAvoidingView>
                         </Modal>
                       ) : (
-                        <AmbulanceAndPaymentDetail
-                          totalPrice={totalPrice}
-                          setTotalPrice={setTotalPrice}
-                          {...props}
-                        />
+                            (type !== requestTypeConstant.GroundAmbulance &&
+                              type !== requestTypeConstant.petVeterinaryAmbulance &&
+                              <AmbulanceAndPaymentDetail
+                                totalPrice={totalPrice}
+                                setTotalPrice={setTotalPrice}
+                                {...props}
+                              />
+                            )
                       )}
                     </View>
                   </>
@@ -1348,6 +1410,7 @@ function BookingInfo(props) {
                       }}
                       data={noAmbulanceFound.data}
                       bookingCategory={type}
+                      navigation={props.navigation}
                     />
                   )}
 
@@ -1597,6 +1660,9 @@ const mapStateToProps = ({App}) => {
     airAmbulanceMasterDataFail,
     airAmbulanceMasterDataLoading,
     globalConfigurationSuccess,
+    groundPetDistanceAmountDataLoading,
+    groundPetDistanceAmountDataSuccess,
+    groundPetDistanceAmountDataFail,
   } = App;
   return {
     getProfileSuccess,
@@ -1617,6 +1683,9 @@ const mapStateToProps = ({App}) => {
     airAmbulanceMasterDataFail,
     airAmbulanceMasterDataLoading,
     globalConfigurationSuccess,
+    groundPetDistanceAmountDataLoading,
+    groundPetDistanceAmountDataSuccess,
+    groundPetDistanceAmountDataFail,
   };
 };
 
@@ -1632,6 +1701,8 @@ const mapDispatchToProps = {
   resetValidateCoupon,
   MyRequestDetailsReset,
   airAmbulanceMasterData,
+  groundPetleadAmountData,
+  resetgroundPetleadAmountData
 };
 
 export default connect(

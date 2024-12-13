@@ -39,7 +39,8 @@
     "makePaymentCCAvenue": "Make Payment (CCAvenue)",
     "DownloadFail": "Download Failed",
     "enter":"Enter",
-    "na": "NA"
+    "na": "NA",
+    "tollFreeNumber": "18001021298"
   },
   "menuItems": {
     "myProfile": "My Profile",
@@ -969,7 +970,9 @@
       "fromPlaceholder": "Select Pickup Address",
       "vehicleType": "Ambulance",
       "pleaseWait": "Please wait while we find the nearest Ambulance for you.",
-      "bookingAmbulanceFor": "Book Ambulance for"
+      "bookingAmbulanceFor": "Book Ambulance for",
+      "leadGeneratedMessage": "We have received your request",
+      "leadAlreadyGeneratedMessage": "You already have an active request"
     },
     "PET_VETERINARY_AMBULANCE": {
       "heading": "Book Ambulance",
@@ -988,7 +991,9 @@
       "bookingAmbulanceFor": "Travelling Details",
       "category": "Category",
       "breed": "Breed",
-      "gender": "Gender"
+      "gender": "Gender",
+      "leadGeneratedMessage": "We have received your request",
+      "leadAlreadyGeneratedMessage": "You already have an active request"
     },
     "AIR_AMBULANCE": {
       "bookAmbulance": "Book Ambulance",
@@ -1121,6 +1126,7 @@
       "AmbulanceDetails": "Ambulance Details",
       "driver": "Driver",
       "requestCancelled": "Request Cancelled",
+      "requestClosed": "Request Closed",
       "negotiationInitiated": "Negotiation Initiated",
       "booked": "Booked",
       "requestSubmitted": "Request Submitted",
@@ -1426,6 +1432,7 @@
     "selectDropLocation": "Select Drop Address",
     "pickAndDropSame": "Pickup and Drop locations cannot be same",
     "totalPrice": "Total Price",
+    "approximatePrice": "Total Price*",
     "confirm": "Confirm",
     "ambulance": "Ambulance",
     "payment": "Payment",
@@ -1463,6 +1470,7 @@
   "requestCreated": {
     "yourRequestHaveBeenReceived": "Your request have been received",
     "ourTeamWillReachOutToYouSoon": "Our team will reach out to you soon",
+    "ourTeamWillRespond": "Please wait for our team to respond back",
     "goBackToHomePage": "Go Back to Home Page"
   },
   "feedbackScreen":{

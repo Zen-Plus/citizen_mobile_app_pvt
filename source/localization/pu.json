@@ -39,7 +39,8 @@
     "makePaymentCCAvenue": "Make Payment (CCAvenue)",
     "DownloadFail": "Download Failed",
     "enter": "Enter",
-    "na": "NA"
+    "na": "NA",
+    "tollFreeNumber": "18001021298"
   },
   "menuItems": {
     "myProfile": "My Profile",
@@ -960,7 +961,9 @@
       "fromPlaceholder": "Select Pickup Address",
       "vehicleType": "Ambulance",
       "pleaseWait": "Please wait while we find the nearest Ambulance for you.",
-      "bookingAmbulanceFor": "Book Ambulance for"
+      "bookingAmbulanceFor": "Book Ambulance for",
+      "leadGeneratedMessage": "ਅਸੀਂ ਤੁਹਾਡੀ ਬੇਨਤੀ ਪ੍ਰਾਪਤ ਕਰ ਲਈ ਹੈ",
+      "leadAlreadyGeneratedMessage": "ਤੁਹਾਡੇ ਕੋਲ ਪਹਿਲਾਂ ਤੋਂ ਹੀ ਇੱਕ ਸਰਗਰਮ ਬੇਨਤੀ ਹੈ"
     },
     "PET_VETERINARY_AMBULANCE": {
       "heading": "Book Ambulance",
@@ -979,7 +982,9 @@
       "bookingAmbulanceFor": "Travelling Details",
       "category": "Category",
       "breed": "Breed",
-      "gender": "Gender"
+      "gender": "Gender",
+      "leadGeneratedMessage": "ਅਸੀਂ ਤੁਹਾਡੀ ਬੇਨਤੀ ਪ੍ਰਾਪਤ ਕਰ ਲਈ ਹੈ",
+      "leadAlreadyGeneratedMessage": "ਤੁਹਾਡੇ ਕੋਲ ਪਹਿਲਾਂ ਤੋਂ ਹੀ ਇੱਕ ਸਰਗਰਮ ਬੇਨਤੀ ਹੈ"
     },
     "AIR_AMBULANCE": {
       "bookAmbulance": "Book Ambulance",
@@ -1112,6 +1117,7 @@
       "AmbulanceDetails": "Ambulance Details",
       "driver": "Driver",
       "requestCancelled": "Request Cancelled",
+      "requestClosed": "Request Closed",
       "negotiationInitiated": "Negotiation Initiated",
       "booked": "Booked",
       "requestSubmitted": "Request Submitted",
@@ -1404,6 +1410,7 @@
     "selectDropLocation": "Select Drop Address",
     "pickAndDropSame": "Pickup and Drop locations cannot be same",
     "totalPrice": "Total Price",
+    "approximatePrice": "ਕੁੱਲ ਕੀਮਤ*",
     "confirm": "Confirm",
     "ambulance": "Ambulance",
     "payment": "Payment",
@@ -1440,7 +1447,8 @@
   },
   "requestCreated": {
     "yourRequestHaveBeenReceived": "Your request have been received",
-    "ourTeamWillReachOutToYouSoon": "Our team will reach out to you soon",
+    "ourTeamWillReachOutToYouSoon": "ਸਾਡੀ ਟੀਮ ਜਲਦ ਹੀ ਤੁਹਾਡੇ ਨਾਲ ਸੰਪਰਕ ਕਰੇਗੀ",
+    "ourTeamWillRespond": "ਕਿਰਪਾ ਕਰਕੇ ਸਾਡੀ ਟੀਮ ਦੇ ਜਵਾਬ ਲਈ ਉਡੀਕ ਕਰੋ",
     "goBackToHomePage": "Go Back to Home Page"
   },
   "feedbackScreen": {
