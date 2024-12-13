@@ -78,3 +78,4 @@ export const pendingFeedback = '/pending-feedback';
 export const job = 'job/';
 export const feedback = '/feedback';
 export const namedCallersDetails = '/named-callers/details';
+export const groundPetDistanceAmountData = '/vehicles/lead/amount';

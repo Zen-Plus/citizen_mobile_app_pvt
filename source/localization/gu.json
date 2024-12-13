@@ -35,7 +35,8 @@
     "makePaymentRazorpay": "Make Payment (Razorpay)",
     "makePaymentCCAvenue": "Make Payment (CCAvenue)",
     "termsAndConditions": "Terms And Conditions",
-    "enter":"Enter"
+    "enter":"Enter",
+    "tollFreeNumber": "18001021298"
   },
   "menuItems": {
     "myProfile": "મારી પ્રોફાઈલ",
@@ -951,7 +952,9 @@
       "fromPlaceholder": "Select Pickup Address",
       "vehicleType": "Ambulance",
       "pleaseWait": "Please wait while we find the nearest Ambulance for you.",
-      "bookingAmbulanceFor": "Book Ambulance for"
+      "bookingAmbulanceFor": "Book Ambulance for",
+      "leadGeneratedMessage": "અમે તમારી વિનંતી મેળવી છે",
+      "leadAlreadyGeneratedMessage": "તમારી પાસે પહેલેથી જ સક્રિય વિનંતી છે"
     },
     "PET_VETERINARY_AMBULANCE": {
       "heading": "Book Ambulance",
@@ -970,7 +973,9 @@
       "bookingAmbulanceFor": "Travelling Details",
       "category": "Category",
       "breed": "Breed",
-      "gender": "Gender"
+      "gender": "Gender",
+      "leadGeneratedMessage": "અમે તમારી વિનંતી મેળવી છે",
+      "leadAlreadyGeneratedMessage": "તમારી પાસે પહેલેથી જ સક્રિય વિનંતી છે"
     },
     "AIR_AMBULANCE": {
       "bookAmbulance": "Book Ambulance",
@@ -1101,6 +1106,7 @@
       "AmbulanceDetails": "Ambulance Details",
       "driver": "Driver",
       "requestCancelled": "Request Cancelled",
+      "requestClosed": "Request Closed",
       "negotiationInitiated": "Negotiation Initiated",
       "booked": "Booked",
       "requestSubmitted": "Request Submitted",
@@ -1393,6 +1399,7 @@
     "selectDropLocation": "Select Drop Address",
     "pickAndDropSame": "Pickup and Drop locations cannot be same",
     "totalPrice": "Total Price",
+    "approximatePrice": "કુલ કિંમત*",
     "confirm": "Confirm",
     "ambulance": "Ambulance",
     "payment": "Payment",
@@ -1429,7 +1436,8 @@
   },
   "requestCreated": {
     "yourRequestHaveBeenReceived": "Your request have been received",
-    "ourTeamWillReachOutToYouSoon": "Our team will reach out to you soon",
+    "ourTeamWillReachOutToYouSoon": "અમારો ટીમ ટૂંક સમયમાં તમારી સાથે સંપર્ક કરશે",
+    "ourTeamWillRespond": "કૃપા કરીને અમારી ટીમના પ્રત્યુત્તર માટે રાહ જુઓ",
     "goBackToHomePage": "Go Back to Home Page"
   },
   "feedbackScreen":{

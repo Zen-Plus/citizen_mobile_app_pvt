@@ -6,6 +6,7 @@ import {Context} from '../providers/localization';
 import {tripStatus} from '../constants';
 import {
   serviceRequestStatus,
+  leadRequestStatus,
   requestTypeConstant,
   groundAmbulanceIcon,
   petVeterinaryAmbulanceIcon,
@@ -15,13 +16,9 @@ import {icAirAmbulanca, icDoctor, icTrain} from '../../assets';
 var CryptoJs = require('crypto-js');
 
 export const openContact = tel => {
-  let number = '';
-  if (Platform.OS === 'ios') {
-    number = `telprompt:${tel}`;
-  } else {
-    number = `tel:${tel}`;
+  if (tel) {
+    Linking.openURL(`tel:${tel}`);
   }
-  Linking.openURL(number);
 };
 
 export const capitalizeFirstLetter = string => {
@@ -131,6 +128,7 @@ export const HmacSHA256_Encrypt = rawPassword => {
 export const renderRequestStatus = item => {
   const strings = React.useContext(Context).getStrings();
   const {requestHeading} = strings;
+  const leadIntegrationDetails = JSON.parse(item?.leadIntegrationDetails);
   if (item?.jobId) {
     if (
       item?.jobStatus === serviceRequestStatus.CLOSE &&
@@ -144,7 +142,7 @@ export const renderRequestStatus = item => {
         item?.tripStatus?.id || item?.tripStatus
       ];
     }
-  } else {
+  } else if (item?.srId) {
     if (
       (item?.srStatus === serviceRequestStatus.CLOSE ||
         item?.srStatus === serviceRequestStatus.CANCEL) &&
@@ -175,6 +173,14 @@ export const renderRequestStatus = item => {
       }
     } else {
       return requestHeading[item?.requestType?.id]?.requestSubmitted;
+    }
+  } else if (item?.leadNumber) {
+    if (item?.leadStatus === leadRequestStatus.OPEN) {
+      return requestHeading[leadIntegrationDetails?.requestType]
+        ?.requestSubmitted;
+    } else if (item?.leadStatus === leadRequestStatus.CLOSE) {
+      return requestHeading[leadIntegrationDetails?.requestType]
+        ?.requestClosed;
     }
   }
 };
